@@ -2,20 +2,52 @@ import React from 'react';
 
 export default class RegistrationForm extends React.Component {
 
+    isValidForm() {
+        if (this.passwordInput.value !== this.repeatPasswordInput.value) {
+            document.getElementById('error').innerText = "Пароли не совпадают!";
+            return false;
+        }
+
+        if (this.emailInput.value === '' ||
+            this.passwordInput.value === '' ||
+            this.nameInput.value === '' ||
+            this.lastNameInput.value === '') {
+            document.getElementById('error').innerText = "Не все поля заполнены!";
+            return false;
+        }
+
+        return true;
+    }
+
     clickHandler() {
-        this.props.setNameInState(this.nameInput.value);
-        this.props.setPasswordInState(this.passwordInput.value);
-        this.props.setEmailInState(this.emailInput.value);
+        const isValidForm = this.isValidForm();
+
+        if (!isValidForm) return;
+
+        const user = {
+            Email: this.emailInput.value,
+            Password: this.passwordInput.value,
+            Name: this.nameInput.value,
+            LastName: this.lastNameInput.value,
+            Role: "USER",
+            Artworks: null
+        };
+
+        this.props.registration(user);
     }
 
     render() {
         return <div>
-            <input type="text" placeholder="Email" ref={input => this.emailInput = input} /> <br />
-            <input type="text" placeholder="Password" ref={input => this.passwordInput = input}/> <br />
+            <input type="email" placeholder="Email" ref={input => this.emailInput = input} /> <br />
+            <input type="password" placeholder="Password" ref={input => this.passwordInput = input}/> <br />
+            <input type="password" placeholder="Repeat password" ref={input => this.repeatPasswordInput = input}/> <br />
             <input type="text" placeholder="Name" ref={input => this.nameInput = input}/> <br />
+            <input type="text" placeholder="LastName" ref={input => this.lastNameInput = input}/> <br />
             <button onClick={this.clickHandler.bind(this)}>Зарегистрироваться</button>
+
             <hr />
-            {`Email: ${this.props.email} Password: ${this.props.password} Name: ${this.props.name}`}
+
+            <div id="error">{this.props.massage}</div>
         </div>
     }
 }

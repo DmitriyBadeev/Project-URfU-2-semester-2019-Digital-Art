@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using DigitalArt.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DigitalArt
@@ -12,10 +15,10 @@ namespace DigitalArt
     {
         public const string ISSUER = "DigitalArtService";
         public const string AUDIENCE = "https://localhost:44380";
-        const string KEY = "DIGITAL_ART_URFU_PROJECT_$45";
+        public const string KEY = "DIGITAL_ART_URFU_PROJECT_$45";
         public const int LIFETIME_IN_MINUTE = 60;
 
-        private const string SALT_STRING = "salt_of_project_URFU_$45";
+        public const string SALT_STRING = "salt_of_project_URFU_$45";
 
         public static SymmetricSecurityKey GetSecurityKey() => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
 
@@ -34,6 +37,30 @@ namespace DigitalArt
             var hashedBytes = Algorithm.ComputeHash(saltedPassword);
 
             return BitConverter.ToString(hashedBytes);
+        }
+
+        public static string GetJWT(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
+            };
+
+
+            var nowTime = DateTime.Now;
+
+            var jwt = new JwtSecurityToken(
+                issuer: ISSUER,
+                audience: AUDIENCE,
+                notBefore: nowTime,
+                claims: claims,
+                expires: nowTime.Add(TimeSpan.FromMinutes(LIFETIME_IN_MINUTE)),
+                signingCredentials: new SigningCredentials(GetSecurityKey(), SecurityAlgorithms.HmacSha256));
+
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            return encodedJwt;
         }
     }
 }

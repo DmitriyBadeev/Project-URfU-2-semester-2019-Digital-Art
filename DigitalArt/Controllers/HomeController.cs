@@ -83,17 +83,27 @@ namespace DigitalArt.Controllers
 
         // POST: api/Home
         [HttpPost]
-        public async Task<IActionResult> PostArtwork([FromBody] Artwork artwork)
+        public async Task<IActionResult> PostArtwork([FromBody] ArtworkData artworkData)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var author = _context.Users.FirstOrDefaultAsync(u => u.Email == artworkData.Author);
+
+            var artwork = new Artwork
+            {
+                Name = artworkData.Name,
+                Author = author.Result,
+                DateOfPublication = artworkData.Date,
+            };
+
+
             _context.Artworks.Add(artwork);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetArtwork", new { id = artwork.Id }, artwork);
+            return Ok();
         }
 
         // DELETE: api/Home/5
@@ -121,5 +131,18 @@ namespace DigitalArt.Controllers
         {
             return _context.Artworks.Any(e => e.Id == id);
         }
+    }
+
+    public class ArtworkData
+    {
+        public string Name { get; set; }
+
+        public string Author { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Date { get; set; }
+         
+        public List<string> Tags { get; set; }
     }
 }

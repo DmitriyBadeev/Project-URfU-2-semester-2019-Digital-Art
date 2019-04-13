@@ -1,38 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-    setEmailInState,
-    setNameInState,
-    setPasswordInState
+    registrationUser
 } from '../../store/Registration/actions';
 import RegistrationForm from './RegistrationForm';
+import { withRouter } from "react-router-dom";
 
 class RegistrationFormContainer extends React.Component {
 
     render() {
         return <RegistrationForm
-            email={this.props.email}
-            password={this.props.password}
-            name={this.props.name}
-            setNameInState={this.props.setNameInState}
-            setPasswordInState={this.props.setPasswordInState}
-            setEmailInState={this.props.setEmailInState}
+            registration={this.props.registration}
+            massage={this.props.massage}
         />
     }
 }
 
 const mapStateToProps = state => {
     return {
-        email: state.registration.email,
-        password: state.registration.password,
-        name: state.registration.name
+        massage: state.registration.massage
     }
 };
 
-const mapDispatchToProps = {
-    setNameInState,
-    setPasswordInState,
-    setEmailInState
+const mapDispatchToProps = dispatch => {
+    return {
+        registration: (user) => dispatch(registrationUser(user))
+    }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegistrationFormContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RegistrationFormContainer));

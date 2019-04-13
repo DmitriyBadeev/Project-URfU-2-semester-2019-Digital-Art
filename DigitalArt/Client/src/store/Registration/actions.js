@@ -1,26 +1,51 @@
-export const REGISTRATION_WRITE_EMAIL_TEXT_TO_STATE = 'REGISTRATION_WRITE_EMAIL_TEXT_TO_STATE';
-export const REGISTRATION_WRITE_PASSWORD_TEXT_TO_STATE = 'REGISTRATION_WRITE_PASSWORD_TEXT_TO_STATE';
-export const REGISTRATION_WRITE_NAME_TEXT_TO_STATE = 'REGISTRATION_WRITE_NAME_TEXT_TO_STATE';
+import axios from 'axios';
+import { MAIN_PATH, REGISTRATION_URL } from "../../Config";
 
-export const setEmailInState = (email) => (
-    {
-        type: REGISTRATION_WRITE_EMAIL_TEXT_TO_STATE,
-        payload: email
-    }
-);
+import { getUserInfoSuccess} from "../Header/UserInfo/actions";
+import { authorizationUserSuccess } from "../Auth/actions";
 
-export const setPasswordInState = (password) => (
-    {
-        type: REGISTRATION_WRITE_PASSWORD_TEXT_TO_STATE,
-        payload: password
-    }
-);
+export const REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS';
+export const REGISTRATION_UNSUCCESS = 'REGISTRATION_UNSUCCESS';
 
-export const setNameInState = (name) => (
-    {
-        type: REGISTRATION_WRITE_NAME_TEXT_TO_STATE,
-        payload: name
+export const registrationUserSuccess = () => {
+    return {
+        type: REGISTRATION_SUCCESS,
+        payload: 'Вы зарегистрировались успешно!'
+    };
+};
+
+export const registrationUserUnsuccess = (error) => {
+    return {
+        type: REGISTRATION_UNSUCCESS,
+        payload: 'Пользователь с таким email уже существует!'
+    };
+};
+
+export const registrationUser = (user) => {
+    return dispatch => {
+        axios.post(MAIN_PATH + REGISTRATION_URL, user)
+            .then(res => {
+                    console.log(res.data);
+                    dispatch(registrationUserSuccess());
+
+                    const user = {
+                        id: res.data.id,
+                        email: res.data.email,
+                        name: res.data.name,
+                        lastName: res.data.lastName,
+                        artworks: null
+                    };
+
+                    localStorage.setItem('token', res.data.token);
+                    dispatch(authorizationUserSuccess(res.data.token));
+                    dispatch(getUserInfoSuccess(user));
+                    window.location.reload();
+                }
+            )
+            .catch(error => dispatch(registrationUserUnsuccess(error)))
     }
-);
+};
+
+
 
 

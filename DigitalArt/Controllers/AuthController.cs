@@ -37,38 +37,19 @@ namespace DigitalArt.Controllers
             var user = GetUser(data.Login, data.Password);
             if (user == null)
             {
-                Response.StatusCode = 400;
                 await Response.WriteAsync("Invalid username or password");
                 return Forbid();
             }
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
-            };
-            
-
-            var nowTime = DateTime.Now;
-
-            var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: AuthOptions.AUDIENCE,
-                notBefore: nowTime,
-                claims: claims,
-                expires: nowTime.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME_IN_MINUTE)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSecurityKey(), SecurityAlgorithms.HmacSha256));
-            
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            var encodedJwt = AuthOptions.GetJWT(user);
 
             var response = new
             {
                 accses_token = encodedJwt,
-                //id = user.Id,
-                //email = user.Email,
-                //name = user.Name,
-                //lastName = user.LastName,
-                //artworks = user.Artworks
+                id = user.Id,
+                email = user.Email,
+                name = user.Name,
+                lastName = user.LastName
             };
 
             Response.ContentType = "application/json";

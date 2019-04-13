@@ -1,34 +1,23 @@
-import {
-    REGISTRATION_WRITE_EMAIL_TEXT_TO_STATE,
-    REGISTRATION_WRITE_PASSWORD_TEXT_TO_STATE,
-    REGISTRATION_WRITE_NAME_TEXT_TO_STATE
-} from "./actions";
+import { REGISTRATION_SUCCESS, REGISTRATION_UNSUCCESS } from "./actions";
+
 
 const defaultState = {
-    email: '',
-    password: '',
-    name: ''
+    massage: ''
 };
 
 export const registrationReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case REGISTRATION_WRITE_EMAIL_TEXT_TO_STATE:
+        case REGISTRATION_SUCCESS:
             return {
                 ...state,
-                email: action.payload
+                massage: action.payload
             };
-
-        case REGISTRATION_WRITE_PASSWORD_TEXT_TO_STATE:
+        case REGISTRATION_UNSUCCESS:
             return {
                 ...state,
-                password: action.payload
-            };
-
-        case REGISTRATION_WRITE_NAME_TEXT_TO_STATE:
-            return {
-                ...state,
-                name: action.payload
-            };
+                massage: action.payload
+            }
     }
+
     return state;
 };

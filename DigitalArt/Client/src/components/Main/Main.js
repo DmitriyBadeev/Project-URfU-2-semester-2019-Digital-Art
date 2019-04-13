@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getArtworks } from '../../store/Main/actions'
-import { MAIN_PATH, GET_ARTS_URL } from "../../Config";
+import { GET_ARTS_URL } from "../../Config";
 
 
 class Main extends React.Component {
@@ -14,16 +14,12 @@ class Main extends React.Component {
 
     render() {
         return <div>
-                <Link to="/registration">Регистрация</Link> <br />
-                <Link to="/helloworld">Hello World</Link>
-                <hr />
                 <h1>Главная страница</h1>
                 {this.props.artworks.map((art, index) =>
-                    <li key={index}>
+                    <ul key={index}>
                         <li>{art.name}</li>
-                        <li>{art.author}</li>
                         <li>{art.dateOfPublication}</li>
-                    </li>
+                    </ul>
                 )}
             </div>
     }

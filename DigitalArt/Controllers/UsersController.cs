@@ -44,7 +44,7 @@ namespace DigitalArt.Controllers
                 .Select(a => new
                 {
                     name = a.Name,
-                    author = a.Author.Name,
+                    author = a.Author.Name + " " + a.Author.LastName,
                     date = a.DateOfPublication,
                     countLikes = a.Likes.Count,
                     countComents = a.Comments.Count,

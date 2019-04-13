@@ -29,12 +29,27 @@ namespace DigitalArt.Controllers
                 return BadRequest(ModelState);
             }
 
-            user.Password = AuthOptions.ComputeHash(user.Password); 
+            var equalUser = _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+
+            if (equalUser.Result != null)
+                return Conflict("Пользователь уже существует");
+
+            user.Password = AuthOptions.ComputeHash(user.Password);
+            var jwt = AuthOptions.GetJWT(user);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            var response = new
+            {
+                user.Id,
+                email = user.Email,
+                name = user.Name,
+                lastName = user.LastName,
+                token = jwt
+            };
+
+            return Ok(response);
         }
     }
 }

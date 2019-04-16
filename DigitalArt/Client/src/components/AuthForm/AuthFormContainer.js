@@ -5,6 +5,7 @@ import AuthForm from './AuthForm';
 import { authorizationUser } from "../../store/Auth/actions";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import {closeDialogAuth} from "../../store/Header/actions";
 
 class AuthFormContainer extends React.Component {
 
@@ -12,6 +13,7 @@ class AuthFormContainer extends React.Component {
         return <AuthForm
             authorization = {this.props.authorization}
             massage = {this.props.massage}
+            closeAuth={this.props.closeDialogAuth}
         />
     }
 }
@@ -24,7 +26,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        authorization: (user) => dispatch(authorizationUser(user)),
+        authorization: (user, isRemember) => dispatch(authorizationUser(user, isRemember)),
+        closeDialogAuth: () => dispatch(closeDialogAuth())
     }
 };
 

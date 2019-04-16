@@ -16,7 +16,7 @@ namespace DigitalArt
         public const string ISSUER = "DigitalArtService";
         public const string AUDIENCE = "https://localhost:44380";
         public const string KEY = "DIGITAL_ART_URFU_PROJECT_$45";
-        public const int LIFETIME_IN_MINUTE = 60;
+        public const int LIFETIME_IN_MINUTE = 1440;
 
         public const string SALT_STRING = "salt_of_project_URFU_$45";
 

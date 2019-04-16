@@ -7,6 +7,7 @@ const conf = {
     output: {
         path: path.resolve(__dirname, './build'),
         filename: 'index.js',
+        chunkFilename: '[name].bundle.js'
     },
     devServer: {
         historyApiFallback: true,
@@ -22,10 +23,10 @@ const conf = {
             },
             {
                 test: /\.sass$/,
-                use: ExtractTextPlugin.extract({
+                use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: ['css-loader', 'postcss-loader' , 'sass-loader']
-                })
+                }))
             }
         ]
     },

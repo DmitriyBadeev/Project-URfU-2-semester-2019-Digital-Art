@@ -37,7 +37,6 @@ namespace DigitalArt.Controllers
             var user = GetUser(data.Login, data.Password);
             if (user == null)
             {
-                await Response.WriteAsync("Invalid username or password");
                 return Forbid();
             }
 
@@ -46,10 +45,10 @@ namespace DigitalArt.Controllers
             var response = new
             {
                 accses_token = encodedJwt,
-                id = user.Id,
-                email = user.Email,
-                name = user.Name,
-                lastName = user.LastName
+                //id = user.Id,
+                //email = user.Email,
+                //name = user.Name,
+                //lastName = user.LastName
             };
 
             Response.ContentType = "application/json";

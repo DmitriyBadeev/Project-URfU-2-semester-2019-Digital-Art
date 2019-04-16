@@ -4,6 +4,9 @@ import RegistrationForm from "../RegistrationForm/RegistrationFormContainer";
 import AuthForm from "../AuthForm/AuthFormContainer";
 import UserInfo from "./UserInfo/UserInfoContainer";
 
+import "./header.sass";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 export default class Footer extends React.Component {
 
     registrationClick() {
@@ -21,19 +24,29 @@ export default class Footer extends React.Component {
     }
 
     render() {
-        return <div>
-            <Link to="/"><h1>Главная</h1></Link>
-            <hr />
-            {!this.props.isAuth? <button onClick={this.registrationClick.bind(this)}>Регистрация</button>:null}
-            {!this.props.isAuth? <button onClick={this.authClick.bind(this)}>Авторизация</button>: null}
+        return <header className="Header__header">
+            <div className="Header__logo_wrapper">
+                <Link to="/">
+                    <p className="Header__logo"><FontAwesomeIcon icon="dice-d6"/> Digital Art</p>
+                </Link>
+            </div>
 
-            {this.props.isOpenRegistration && !this.props.isAuth? <RegistrationForm />: null}
-            {this.props.isOpenAuth && !this.props.isAuth? <AuthForm />: null}
 
-            {this.props.isAuth? <UserInfo /> : null}
-            {this.props.isAuth? <Link to="/profile">Мой профиль</Link> : null}
+            <div className="Header__userInfo">
+                {!this.props.isAuth? <div className="Header__Btn" onClick={this.registrationClick.bind(this)}>
+                    <p>Зарегистрироваться</p>
+                </div>:null}
 
-            <hr />
-        </div>
+                {!this.props.isAuth? <div className="Header__Btn" onClick={this.authClick.bind(this)}>
+                    <p>Войти</p>
+                </div>: null}
+
+                {this.props.isOpenRegistration && !this.props.isAuth? <RegistrationForm />: null}
+                {this.props.isOpenAuth && !this.props.isAuth? <AuthForm />: null}
+
+                {this.props.isAuth? <UserInfo /> : null}
+            </div>
+
+        </header>
     }
 }

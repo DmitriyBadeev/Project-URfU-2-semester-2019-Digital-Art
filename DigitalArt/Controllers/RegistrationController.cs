@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,18 @@ namespace DigitalArt.Controllers
 
             user.Password = AuthOptions.ComputeHash(user.Password);
             var jwt = AuthOptions.GetJWT(user);
+
+            var rootPath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            rootPath = Directory.GetParent(rootPath).FullName;
+            rootPath = Directory.GetParent(rootPath).FullName;
+            rootPath = Directory.GetParent(rootPath).FullName;
+
+            using (var fstream = new FileStream(rootPath + @"\etc\anon.png", FileMode.OpenOrCreate))
+            {
+                var byteArray = new byte[fstream.Length];
+                fstream.Read(byteArray, 0, byteArray.Length);
+                user.Avatar = byteArray;
+            }
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

@@ -11,6 +11,11 @@ import Footer from "./components/Footer/Footer";
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUser, faDiceD6 } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faUser, faDiceD6);
+
 const App = ({ children }) => (
      <Provider store={store}>
         <Header />

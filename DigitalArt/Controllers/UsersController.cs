@@ -43,11 +43,13 @@ namespace DigitalArt.Controllers
                 .Where(a => a.Author.Id == user.Id)
                 .Select(a => new
                 {
+                    id = a.Id,
                     name = a.Name,
                     author = a.Author.Name + " " + a.Author.LastName,
                     date = a.DateOfPublication,
                     countLikes = a.Likes.Count,
                     countComents = a.Comments.Count,
+                    art = a.Art,
                     tags = a.Tags.Select(t => t.TagName).ToList()
                 });
 
@@ -57,6 +59,7 @@ namespace DigitalArt.Controllers
                 email = user.Email,
                 name = user.Name,
                 lastName = user.LastName,
+                avatar = user.Avatar,
                 artworks = arts
             };
 

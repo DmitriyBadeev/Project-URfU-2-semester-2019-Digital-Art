@@ -11,6 +11,10 @@ namespace DigitalArt.Models
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
+        public byte[] Art { get; set; }
+
         public User Author { get; set; }
 
         public ICollection<Tag> Tags { get; set; }

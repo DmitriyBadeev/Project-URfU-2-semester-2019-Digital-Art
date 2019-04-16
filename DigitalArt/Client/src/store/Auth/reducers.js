@@ -5,7 +5,7 @@ import {AUTHORIZATION_SUCCESS,
 const defaultState = {
     token: '',
     massage: '',
-    isAuth: !!localStorage.getItem('token'),
+    isAuth: !!localStorage.getItem('token') || !!sessionStorage.getItem('token'),
 };
 
 export const authorizationReducer = (state = defaultState, action) => {

@@ -5,6 +5,7 @@ import {
 } from '../../store/Registration/actions';
 import RegistrationForm from './RegistrationForm';
 import { withRouter } from "react-router-dom";
+import {closeDialogRegistration} from "../../store/Header/actions";
 
 class RegistrationFormContainer extends React.Component {
 
@@ -12,6 +13,7 @@ class RegistrationFormContainer extends React.Component {
         return <RegistrationForm
             registration={this.props.registration}
             massage={this.props.massage}
+            closeRegistration={this.props.closeDialogRegistration}
         />
     }
 }
@@ -24,7 +26,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        registration: (user) => dispatch(registrationUser(user))
+        registration: (user) => dispatch(registrationUser(user)),
+        closeDialogRegistration: () => dispatch(closeDialogRegistration())
     }
 };
 

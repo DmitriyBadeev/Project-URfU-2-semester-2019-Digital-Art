@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MAIN_PATH, POST_ART_URL } from "../../Config";
+import {MAIN_PATH, POST_ART_URL} from "../../Config";
 
 export const POST_ARTWORK_SUCCESS = "POST_ARTWORK_SUCCESS";
 export const POST_ARTWORK_UNSUCCESS = "POST_ARTWORK_UNSUCCESS";
@@ -25,9 +25,16 @@ export const isRedirected = () => {
     }
 };
 
+const options = {
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
+        'Content-Type': 'multipart/form-data'
+    }
+};
+
 export const postArtwork = (artwork) => {
     return dispatch => {
-        axios.post(MAIN_PATH+POST_ART_URL, artwork)
+        axios.post(MAIN_PATH+POST_ART_URL, artwork, options)
             .then(res => {
                 console.log(res.data);
                 dispatch(postArtworkSuccess());

@@ -1,40 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { getArtworks } from '../../store/Main/actions'
-import { GET_ARTS_URL } from "../../Config";
 
-
-class Main extends React.Component {
+export default class Main extends React.Component {
 
     componentDidMount() {
-        this.props.getData(GET_ARTS_URL);
+        this.props.getArtworks();
     }
 
     render() {
         return <div>
                 <h1>Главная страница</h1>
-                {this.props.artworks.map((art, index) =>
+                {this.props.isLoading? <p>Loading</p>: this.props.artworks.map((art, index) =>
                     <ul key={index}>
+                        <li><img src={`data:image/JPEG;base64,${art.art}`} alt="art"/></li>
                         <li>{art.name}</li>
-                        <li>{art.dateOfPublication}</li>
+                        <li>{art.author}</li>
+                        <li>{art.date}</li>
+                        <li>{art.countLikes}</li>
+                        <li>{art.countComents}</li>
                     </ul>
                 )}
             </div>
     }
 }
-
-const mapStateToProps = state => {
-    return {
-        artworks: state.main.artworks
-    }
-};
-
-const mapDispatchToProps  = dispatch => {
-    return {
-        getData: url => dispatch(getArtworks(url))
-    }
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

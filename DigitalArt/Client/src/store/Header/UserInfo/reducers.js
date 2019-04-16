@@ -1,11 +1,13 @@
-import { GET_USER_INFO_SUCCESS, GET_USER_INFO_UNSUCCESS } from "./actions";
+import { GET_USER_INFO_SUCCESS, GET_USER_INFO_UNSUCCESS, GET_USER_INFO_LOADING } from "./actions";
 
 const defaultState = {
     id: '',
     email: '',
     name: '',
     lastName: '',
-    artworks: []
+    avatar: '',
+    artworks: [],
+    isLoading: false
 };
 
 export const userInfoReducer = (state = defaultState, action) => {
@@ -16,10 +18,22 @@ export const userInfoReducer = (state = defaultState, action) => {
                 email: action.payload.email,
                 name: action.payload.name,
                 lastName: action.payload.lastName,
-                artworks: action.payload.artworks
+                avatar: action.payload.avatar,
+                artworks: action.payload.artworks,
+                isLoading: false
             };
+
         case GET_USER_INFO_UNSUCCESS:
-            return state;
+            return {
+                ...state,
+                isLoading: false
+            };
+
+        case GET_USER_INFO_LOADING:
+            return {
+                ...state,
+                isLoading: true
+            }
     }
 
     return state;

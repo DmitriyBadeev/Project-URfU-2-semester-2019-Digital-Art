@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DigitalArt.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DigitalArt.Controllers
 {
@@ -22,9 +24,27 @@ namespace DigitalArt.Controllers
 
         // GET: api/Home
         [HttpGet]
-        public IEnumerable<Artwork> GetArtworks()
+        public async Task<IActionResult> GetArtworks()
         {
-            return _context.Artworks;
+            var arts = _context.Artworks
+                .Include(w => w.Author)
+                .Include(w => w.Likes)
+                .Include(w => w.Comments)
+                .Include(w => w.Tags)
+                .Select(a => new
+                {
+                    id = a.Id,
+                    name = a.Name,
+                    author = a.Author.Name + " " + a.Author.LastName,
+                    description = a.Description,
+                    date = a.DateOfPublication,
+                    countLikes = a.Likes.Count,
+                    countComents = a.Comments.Count,
+                    tags = a.Tags.Select(t => t.TagName).ToList(),
+                    art = a.Art
+                });
+
+            return Ok(arts);
         }
 
         // GET: api/Home/5
@@ -83,22 +103,33 @@ namespace DigitalArt.Controllers
 
         // POST: api/Home
         [HttpPost]
-        public async Task<IActionResult> PostArtwork([FromBody] ArtworkData artworkData)
+        [Consumes("multipart/form-data")]
+        [Authorize]
+        public async Task<IActionResult> PostArtwork([FromForm]ArtworkData artworkData)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            
             var author = _context.Users.FirstOrDefaultAsync(u => u.Email == artworkData.Author);
 
             var artwork = new Artwork
             {
                 Name = artworkData.Name,
                 Author = author.Result,
-                DateOfPublication = artworkData.Date,
+                DateOfPublication = DateTime.Now,
+                Description = artworkData.Description
             };
 
+            if (artworkData.File != null)
+            {
+                using (var binaryReader = new BinaryReader(artworkData.File.OpenReadStream()))
+                {
+                    var imageData = binaryReader.ReadBytes((int)artworkData.File.Length);
+                    artwork.Art = imageData;
+                }
+            }            
 
             _context.Artworks.Add(artwork);
             await _context.SaveChangesAsync();
@@ -139,10 +170,12 @@ namespace DigitalArt.Controllers
 
         public string Author { get; set; }
 
+        public IFormFile File { get; set; }
+
         public string Description { get; set; }
 
-        public DateTime Date { get; set; }
+        //public DateTime Date { get; set; }
          
-        public List<string> Tags { get; set; }
+        public string Tags { get; set; }
     }
 }

@@ -1,0 +1,14 @@
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\bin\Release\netcoreapp2.1\DigitalArt.deps.json
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\bin\Release\netcoreapp2.1\DigitalArt.runtimeconfig.json
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\bin\Release\netcoreapp2.1\DigitalArt.runtimeconfig.dev.json
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\bin\Release\netcoreapp2.1\DigitalArt.dll
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\bin\Release\netcoreapp2.1\DigitalArt.pdb
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Release\netcoreapp2.1\DigitalArt.csprojAssemblyReference.cache
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Release\netcoreapp2.1\DigitalArt.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Release\netcoreapp2.1\DigitalArt.RazorAssemblyInfo.cache
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Release\netcoreapp2.1\DigitalArt.RazorAssemblyInfo.cs
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Release\netcoreapp2.1\DigitalArt.AssemblyInfoInputs.cache
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Release\netcoreapp2.1\DigitalArt.AssemblyInfo.cs
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Release\netcoreapp2.1\DigitalArt.RazorTargetAssemblyInfo.cache
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Release\netcoreapp2.1\DigitalArt.dll
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Release\netcoreapp2.1\DigitalArt.pdb

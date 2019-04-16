@@ -14,6 +14,7 @@ class UserInfoContainer extends React.Component{
             name={this.props.name}
             lastName={this.props.lastName}
             getUserInfo={this.props.getUserInfo}
+            isLoading={this.props.isLoading}
         />
     }
 }
@@ -24,6 +25,7 @@ const mapStateToProps = state => {
         email: state.userInfo.email,
         name: state.userInfo.name,
         lastName: state.userInfo.lastName,
+        isLoading: state.userInfo.isLoading
     }
 };
 

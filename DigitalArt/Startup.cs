@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,6 +56,15 @@ namespace DigitalArt
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "Client/build"; });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigin", builder => builder.AllowAnyOrigin());
+            });
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigin"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,7 +83,7 @@ namespace DigitalArt
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
+            
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
@@ -88,6 +98,7 @@ namespace DigitalArt
             {
                 spa.Options.SourcePath = "Client";
             });
+            app.UseCors("AllowAllOrigin");
         }
     }
 }

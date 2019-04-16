@@ -25,9 +25,13 @@ namespace DigitalArt.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<byte[]>("Art");
+
                     b.Property<int?>("AuthorId");
 
                     b.Property<DateTime>("DateOfPublication");
+
+                    b.Property<string>("Description");
 
                     b.Property<string>("Name");
 
@@ -104,6 +108,8 @@ namespace DigitalArt.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("Avatar");
 
                     b.Property<string>("Email");
 

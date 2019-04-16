@@ -1,7 +1,9 @@
-import { GET_ARTWORKS_SUCCESS } from './actions';
+import { GET_ARTWORKS_SUCCESS, GET_ARTWORKS_UNSUCCESS, GET_ARTWORKS_LOADING } from './actions';
 
 const defaultState = {
-    artworks: []
+    artworks: [],
+    massage: "",
+    isLoading: false
 };
 
 export const mainReducer = (state = defaultState, action) => {
@@ -9,7 +11,19 @@ export const mainReducer = (state = defaultState, action) => {
         case GET_ARTWORKS_SUCCESS:
             return {
                 ...state,
-                artworks: action.payload
+                artworks: action.payload,
+                isLoading: false
+            };
+        case GET_ARTWORKS_UNSUCCESS:
+            return {
+                ...state,
+                massage: "Данные не были получены. Произошла ощибка :( " + action.payload,
+                isLoading: false
+            };
+        case GET_ARTWORKS_LOADING:
+            return {
+                ...state,
+                isLoading: true
             }
     }
 

@@ -4,6 +4,7 @@ import ProfilePage from './ProfilePage';
 import { withRouter } from "react-router-dom";
 import {connect} from "react-redux";
 import { getUserInfo } from "../../store/Header/UserInfo/actions";
+import {deleteArtwork} from "../../store/Profile/actions";
 
 class ProfilePageContainer extends React.Component {
 
@@ -15,6 +16,10 @@ class ProfilePageContainer extends React.Component {
             name={this.props.name}
             lastName={this.props.lastName}
             artworks={this.props.artworks}
+            avatar={this.props.avatar}
+            isLoadingInfo={this.props.isLoadingInfo}
+            deleteArtwork={this.props.deleteArtwork}
+            isLoadingDelete={this.props.isLoadingDelete}
         />
     }
 }
@@ -25,13 +30,17 @@ const mapStateToProps = state => {
         email: state.userInfo.email,
         name: state.userInfo.name,
         lastName: state.userInfo.lastName,
-        artworks: state.userInfo.artworks
+        avatar: state.userInfo.avatar,
+        artworks: state.userInfo.artworks,
+        isLoadingInfo: state.userInfo.isLoading,
+        isLoadingDelete: state.profile.isLoading
     }
 };
 
 const mapDispatchToProps = dispatch => {
         return {
-            getUserInfo: () => dispatch(getUserInfo())
+            getUserInfo: () => dispatch(getUserInfo()),
+            deleteArtwork: (id) => dispatch(deleteArtwork(id))
         }
 };
 

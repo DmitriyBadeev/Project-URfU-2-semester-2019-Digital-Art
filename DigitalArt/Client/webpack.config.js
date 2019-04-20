@@ -23,10 +23,10 @@ const conf = {
             },
             {
                 test: /\.sass$/,
-                use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
+                use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: ['css-loader', 'postcss-loader' , 'sass-loader']
-                }))
+                })
             }
         ]
     },
@@ -35,7 +35,10 @@ const conf = {
             template: "./src/index.html",
             filename: "index.html"
         }),
-        new ExtractTextPlugin('style.css')
+        new ExtractTextPlugin({
+            filename: 'style.css',
+            allChunks: true
+        })
     ]
 };
 

@@ -12,15 +12,15 @@ import Footer from "./components/Footer/Footer";
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUser, faDiceD6 } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faDiceD6, faThumbsUp, faCommentAlt } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faUser, faDiceD6);
+library.add(faUser, faDiceD6, faThumbsUp, faCommentAlt);
 
 const App = ({ children }) => (
      <Provider store={store}>
         <Header />
          {children}
-        <Footer />
+
      </Provider>
 );
 

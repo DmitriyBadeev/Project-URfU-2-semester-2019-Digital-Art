@@ -1,4 +1,8 @@
 import React from 'react';
+import Masonry from 'react-masonry-component'
+import Artwork from "../general/Artwork/Artwork";
+
+import "./main.sass"
 
 export default class Main extends React.Component {
 
@@ -7,18 +11,18 @@ export default class Main extends React.Component {
     }
 
     render() {
-        return <div>
-                <h1>Главная страница</h1>
+        return <div className="Main__wrapper">
+            <input type="search" className="Main__search" placeholder="Поиск"/>
+
+            <Masonry className="Main__arts">
                 {this.props.isLoading? <p>Loading</p>: this.props.artworks.map((art, index) =>
-                    <ul key={index}>
-                        <li><img src={`data:image/JPEG;base64,${art.art}`} alt="art"/></li>
-                        <li>{art.name}</li>
-                        <li>{art.author}</li>
-                        <li>{art.date}</li>
-                        <li>{art.countLikes}</li>
-                        <li>{art.countComents}</li>
-                    </ul>
+                    <Artwork
+                        key={index}
+                        art={art}
+                        index={index}
+                    />
                 )}
-            </div>
+            </Masonry>
+        </div>
     }
 }

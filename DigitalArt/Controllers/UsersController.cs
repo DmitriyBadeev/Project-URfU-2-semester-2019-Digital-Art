@@ -45,6 +45,7 @@ namespace DigitalArt.Controllers
                 {
                     id = a.Id,
                     name = a.Name,
+                    description = a.Description,
                     author = a.Author.Name + " " + a.Author.LastName,
                     date = a.DateOfPublication,
                     countLikes = a.Likes.Count,

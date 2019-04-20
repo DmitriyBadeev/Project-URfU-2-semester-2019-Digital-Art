@@ -1,5 +1,11 @@
 import React from 'react';
-import Link from "react-router-dom/es/Link";
+import User from './User/User';
+
+import './profile.sass';
+import Artwork from "../general/Artwork/Artwork";
+import Masonry from 'react-masonry-component';
+import ButtonLink from "../general/Button/ButtonLink"
+
 
 export default class ProfilePage extends React.Component {
 
@@ -8,7 +14,8 @@ export default class ProfilePage extends React.Component {
     }
 
     toDeleteArtwork(e) {
-        const idArt = this.props.artworks[e.target.value].id;
+        console.log(e.target.id);
+        const idArt = this.props.artworks[e.target.id].id;
         console.log(idArt);
         this.props.deleteArtwork(idArt);
         this.props.history.push('/profile');
@@ -29,51 +36,34 @@ export default class ProfilePage extends React.Component {
     handleSave() {
         const file = this.fileInput.files[0];
         console.log(file);
-
-        const formData = new FormData();
-
-        formData.append("Name", this.nameInput.value);
-        formData.append("Author", this.props.email);
-        formData.append("Tags", this.tagInput.value);
-        formData.append("Description", this.descriptionInput.value);
-        formData.append("File", file);
-
-        this.props.postArtwork(formData);
     }
 
     render() {
-        return <div>
-            <h1>Ваш профиль</h1>
-            <h2>Информация о вас</h2>
-            <div>
-                <hr/>
-                {this.props.isLoadingInfo? <p>Loading</p>:<img src={`data:image/JPEG;base64,${this.props.avatar}`} alt="avatar"/>}
-                <p>Загрузить аватарку</p>
-                <input type="file" onChange={this.handleFile.bind(this)}/> <br/>
-                <button onClick={this.handleSave.bind(this)}>Сохранить</button>
-                <hr/>
+        return <div className="Profile__container">
+            <div className="Profile__userInfo">
+                <User
+                    isLoadingInfo={this.props.isLoadingInfo}
+                    avatar={this.props.avatar}
+                    email={this.props.email}
+                    name={this.props.name}
+                    lastName={this.props.lastName}
+                />
+                <ButtonLink link="/add-artwork" text="Добавить работу"/>
             </div>
-            <ul>
-                <li>{this.props.isLoadingInfo? <p>Loading</p>: this.props.id}</li>
-                <li>{this.props.isLoadingInfo? <p>Loading</p>: this.props.email}</li>
-                <li>{this.props.isLoadingInfo? <p>Loading</p>: this.props.name}</li>
-                <li>{this.props.isLoadingInfo? <p>Loading</p>: this.props.lastName}</li>
-            </ul>
-            <h2>Ваши работы</h2>
-            {this.props.isLoadingInfo? <p>Loading</p>: this.props.artworks.map((art, index) =>
-                <ul key={index}>
-                    <li>{art.id}</li>
-                    <li>{art.name}</li>
-                    <li>{art.author}</li>
-                    <li>{art.date}</li>
-                    <li>{art.countLikes}</li>
-                    <li>{art.countComents}</li>
-                    <li>{art.tags}</li>
-                    <li><img src={`data:image/JPEG;base64,${art.art}`} alt="art"/></li>
-                    <button value={index} onClick={this.toDeleteArtwork.bind(this)}>Удалить</button>
-                </ul>
-            )}
-            <Link to="/add-artwork">Добавить работу</Link>
+
+            <Masonry className="Profile__usersArtworks">
+
+                {this.props.isLoadingInfo? <p>Loading</p>: this.props.artworks.map((art, index) =>
+                        <Artwork key={index}
+                                art={art}
+                                index={index}
+                                toDeleteArtwork={this.toDeleteArtwork.bind(this)}
+                            />
+                )}
+            </Masonry>
+
         </div>
+
+
     }
 }

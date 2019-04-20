@@ -40,17 +40,17 @@ export default class AddArtworkPage extends React.Component {
         }
 
         return <div>
-            <input type="text" placeholder="Название" ref={input => this.nameInput = input}/> <br />
-            <textarea placeholder="описание" ref={input => this.descriptionInput = input} /> <br />
-            <input type="text" placeholder="Tag" ref={input => this.tagInput = input}/> <br />
+            <input type="text" placeholder="Название" ref={input => this.nameInput = input} className="input"/> <br />
+            <textarea placeholder="описание" ref={input => this.descriptionInput = input} className="input"/> <br />
+            <input type="text" placeholder="Tag" ref={input => this.tagInput = input} className="input"/> <br />
 
-            <input type="file" onChange={this.handleFile.bind(this)} ref={input => this.fileInput = input}/> <br />
+            <input type="file" onChange={this.handleFile.bind(this)} ref={input => this.fileInput = input} className="input"/> <br />
             <hr/>
             <div>
                 <img src="" alt="art" id="preview" height="200px" />  <br />
             </div>
             <hr/>
-            <button onClick={this.clickHandler.bind(this)}>Добавить работу</button>
+            <button className="button" onClick={this.clickHandler.bind(this)}>Добавить работу</button>
         </div>
     }
 }

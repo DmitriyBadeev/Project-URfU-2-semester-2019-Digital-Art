@@ -10,7 +10,8 @@
   .Artwork__info
     transition: all 0.5s
     position: absolute
-    bottom: 5px
+    bottom: 0
+    border-radius: 20px
     width: 100%
     height: 100%
     cursor: pointer
@@ -22,10 +23,13 @@
       display: none
     .Artwork__comments
       display: none
+    .Artwork__btnClose
+      display: none
 
   .Artwork__info:hover
     background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(87, 87, 87, 0.16))
     color: rgba(240, 255, 255, 0.85)
+
     .Artwork__name
       display: block
       position: absolute
@@ -53,6 +57,20 @@
       display: block
       position: absolute
       bottom: 29px
-      right: 70px
-
+      right: 90px
+    .Artwork__btnClose
+      transition: all 0.2s
+      position: absolute
+      display: flex
+      justify-content: center
+      align-items: center
+      top: 0
+      right: 0
+      width: 35px
+      height: 35px
+      color: rgba(230, 230, 230, 0.75)
+      font-size: 18px
+      cursor: pointer
+      &:hover
+        color: white
 

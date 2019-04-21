@@ -2,9 +2,11 @@ import React from 'react';
 import User from './User/User';
 
 import './profile.sass';
-import Artwork from "../general/Artwork/Artwork";
+import Artwork from "../general/Artwork/ArtworkContainer";
 import Masonry from 'react-masonry-component';
 import ButtonLink from "../general/Button/ButtonLink"
+import Button from "../general/Button/ButtonFnc";
+import Loading from "../general/Loading/Loading";
 
 
 export default class ProfilePage extends React.Component {
@@ -13,29 +15,35 @@ export default class ProfilePage extends React.Component {
         this.props.getUserInfo();
     }
 
-    toDeleteArtwork(e) {
-        console.log(e.target.id);
-        const idArt = this.props.artworks[e.target.id].id;
-        console.log(idArt);
-        this.props.deleteArtwork(idArt);
-        this.props.history.push('/profile');
-    }
-
     handleFile(e) {
         const photo = e.target.files[0];
-
         const avatar = document.getElementById("avatar");
-
         const reader = new FileReader();
-
         reader.onloadend = () => avatar.src = reader.result;
-
         photo? reader.readAsDataURL(photo): avatar.src = "";
     }
 
     handleSave() {
         const file = this.fileInput.files[0];
         console.log(file);
+    }
+
+    countLike() {
+        let count = 0;
+        this.props.artworks.forEach( (art) => {
+            count += art.countLikes;
+        });
+
+        return count;
+    }
+
+    countComment() {
+        let count = 0;
+        this.props.artworks.forEach((art) => {
+            count += art.countComents;
+        });
+
+        return count;
     }
 
     render() {
@@ -48,20 +56,34 @@ export default class ProfilePage extends React.Component {
                     name={this.props.name}
                     lastName={this.props.lastName}
                 />
-                <ButtonLink link="/add-artwork" text="Добавить работу"/>
+
+                <div className="Profile__artsInfo">
+                    <h2 className="Profile__header">Статистика</h2>
+                    <p className="Profile__info">Всего работ: <strong>{this.props.artworks.length}</strong></p>
+                    <p className="Profile__info">Количество лайков: <strong>{this.countLike()}</strong></p>
+                    <p className="Profile__info">Количество комментариев: <strong>{this.countComment()}</strong></p>
+                </div>
+                <ButtonLink className="Profile__addArt button" link="/add-artwork" text="Добавить работу"/>
             </div>
 
-            <Masonry className="Profile__usersArtworks">
+            <div className="Profile__usersArtworks">
 
-                {this.props.isLoadingInfo? <p>Loading</p>: this.props.artworks.map((art, index) =>
-                        <Artwork key={index}
-                                art={art}
-                                index={index}
-                                toDeleteArtwork={this.toDeleteArtwork.bind(this)}
-                            />
-                )}
-            </Masonry>
-
+                <div className="Profile__filter">
+                    <Button className="Profile__btn smallButton smallButton__active" text="Самые новые"/>
+                    <Button className="Profile__btn smallButton" text="Самые популярные"/>
+                    <Button className="Profile__btn smallButton" text="Самые обсуждаемые"/>
+                </div>
+                <Masonry>
+                    {this.props.isLoadingInfo? <Loading />: this.props.artworks.map((art, index) =>
+                            <Artwork key={index}
+                                    art={art}
+                                    index={index}
+                                    deleteArtwork={this.props.deleteArtwork}
+                                    isAuthUser={true}
+                                />
+                    )}
+                </Masonry>
+            </div>
         </div>
 
 

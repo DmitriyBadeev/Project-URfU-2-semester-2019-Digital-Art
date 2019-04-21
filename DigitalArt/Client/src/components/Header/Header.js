@@ -6,6 +6,7 @@ import UserInfo from "./UserInfo/UserInfoContainer";
 
 import "./header.sass";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ArtworkPage from "../ArtworkPage/ArtworkPageContainer";
 
 export default class Footer extends React.Component {
 
@@ -45,6 +46,7 @@ export default class Footer extends React.Component {
                 {this.props.isOpenAuth && !this.props.isAuth? <AuthForm />: null}
 
                 {this.props.isAuth? <UserInfo /> : null}
+                {this.props.isOpenArtwork? <ArtworkPage />: null}
             </div>
 
         </header>

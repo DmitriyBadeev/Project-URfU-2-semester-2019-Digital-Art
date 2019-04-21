@@ -19,13 +19,13 @@ class MainContainer extends React.Component {
 const mapStateToProps = state => {
     return {
         artworks: state.main.artworks,
-        isLoading: state.main.isLoading
+        isLoading: state.main.isLoadingMain
     }
 };
 
 const mapDispatchToProps  = dispatch => {
     return {
-        getArtworks: url => dispatch(getArtworks(url))
+        getArtworks: () => dispatch(getArtworks())
     }
 };
 

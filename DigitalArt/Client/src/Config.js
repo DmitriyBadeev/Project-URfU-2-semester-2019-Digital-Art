@@ -7,6 +7,8 @@ export const POST_ART_URL = '/home';
 
 export const DELETE_ART_URL = (id) => `/home/${id}`;
 
+export const GET_ART_URL = (id) => `/home/${id}`;
+
 export const GET_USER_INFO_URL = '/users';
 
 export const REGISTRATION_URL = '/registration';

@@ -56,14 +56,38 @@ namespace DigitalArt.Controllers
                 return BadRequest(ModelState);
             }
 
-            var artwork = await _context.Artworks.FindAsync(id);
+            var art = _context.Artworks
+                .Include(w => w.Author)
+                .Include(w => w.Likes)
+                .Include(w => w.Comments)
+                .Include(w => w.Tags)
+                .Where(a => a.Id == id)
+                .Select(a => new
+                {
+                    id = a.Id,
+                    name = a.Name,
+                    author = a.Author.Name + " " + a.Author.LastName,
+                    authorAvatar = a.Author.Avatar,
+                    authorId = a.Author.Id,
+                    description = a.Description,
+                    date = a.DateOfPublication,
+                    countLikes = a.Likes.Count,
+                    coments = a.Comments.Select(c => new
+                                    {
+                                        commentAuthor = c.Author.Name + " " + c.Author.LastName,
+                                        commentAuthorId = c.Author.Id,
+                                        comment = c.CommentString 
+                                    }),
+                    tags = a.Tags.Select(t => t.TagName).ToList(),
+                    art = a.Art
+                }).FirstOrDefault();
 
-            if (artwork == null)
+            if (art == null)
             {
                 return NotFound();
             }
 
-            return Ok(artwork);
+            return Ok(art);
         }
 
         // PUT: api/Home/5
@@ -139,6 +163,7 @@ namespace DigitalArt.Controllers
 
         // DELETE: api/Home/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteArtwork([FromRoute] int id)
         {
             if (!ModelState.IsValid)

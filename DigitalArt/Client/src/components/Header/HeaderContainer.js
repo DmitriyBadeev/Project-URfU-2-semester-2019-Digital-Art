@@ -21,6 +21,7 @@ class HeaderContainer extends React.Component {
             closeAuth={this.props.closeDialogAuth}
             isAuth={this.props.isAuth}
             getUserInfo={this.props.getUserInfo}
+            isOpenArtwork={this.props.isOpenArtwork}
         />
     }
 }
@@ -29,7 +30,8 @@ const mapStateToProps = (state) => {
   return {
       isOpenRegistration: state.header.isOpenRegistrationDialog,
       isOpenAuth: state.header.isOpenAuthDialog,
-      isAuth: state.authorization.isAuth
+      isAuth: state.authorization.isAuth,
+      isOpenArtwork: state.main.isOpenArtwork
   }
 };
 

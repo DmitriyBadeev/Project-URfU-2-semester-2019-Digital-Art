@@ -2,6 +2,7 @@ import React from 'react';
 
 import ButtonFnc from '../../general/Button/ButtonFnc'
 import './user.sass';
+import Loading from "../../general/Loading/Loading"
 
 export default class User extends React.Component{
 
@@ -33,7 +34,7 @@ export default class User extends React.Component{
     render() {
         return <div className="UserWrapper">
             <div className="avatarWrapper">
-                {this.props.isLoadingInfo? <p>Loading</p>:<img src={`data:image/JPEG;base64,${this.props.avatar}`}
+                {this.props.isLoadingInfo? <Loading />:<img src={`data:image/JPEG;base64,${this.props.avatar}`}
                                                                alt="avatar"
                                                                className="avatar"
                                                                id="avatar"
@@ -41,11 +42,12 @@ export default class User extends React.Component{
             </div>
 
             <div>
-                <h2>{this.props.isLoadingInfo? <p>Loading</p>: `${this.props.name} ${this.props.lastName}`}</h2>
-                <p>Email: {this.props.isLoadingInfo? <p>Loading</p>: this.props.email}</p>
+                <h2>{`${this.props.name} ${this.props.lastName}`}</h2>
+                <p>{this.props.email}</p>
             </div>
 
-            <ButtonFnc text="Сменить аватарку" function={this.handleChange.bind(this)} id="userButton"/>
+
+            <ButtonFnc text="Сменить аватарку" function={this.handleChange.bind(this)} id="userButton" className="button"/>
 
             <div id="User__selectImg">
                 <input className="input" type="file" onChange={this.handleFile.bind(this)}/> <br/>

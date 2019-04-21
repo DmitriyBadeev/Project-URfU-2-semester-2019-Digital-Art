@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {DELETE_ART_URL, MAIN_PATH} from "../../Config";
+import {DELETE_ART_URL, GET_USER_INFO_URL, MAIN_PATH} from "../../Config";
 
 export const DELETE_ARTWORK_SUCCESS = "DELETE_ARTWORK_SUCCESS";
 export const DELETE_ARTWORK_UNSUCCESS = "DELETE_ARTWORK_UNSUCCESS";
@@ -25,11 +25,21 @@ const deleteArtworkLoading = () => {
     }
 };
 
+const options = id => (
+    {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`},
+        baseURL: MAIN_PATH,
+        url: DELETE_ART_URL(id)
+    }
+);
+
 export const deleteArtwork = (id) => {
     return dispatch => {
         dispatch(deleteArtworkLoading());
         console.log(id);
-        axios.delete(MAIN_PATH+DELETE_ART_URL(id))
+        console.log(options(id));
+        axios(options(id))
             .then(res => {
                 console.log(res.data);
                 dispatch(deleteArtworkSuccess());

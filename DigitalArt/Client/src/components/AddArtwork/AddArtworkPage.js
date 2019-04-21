@@ -44,7 +44,7 @@ export default class AddArtworkPage extends React.Component {
             <textarea placeholder="описание" ref={input => this.descriptionInput = input} className="input"/> <br />
             <input type="text" placeholder="Tag" ref={input => this.tagInput = input} className="input"/> <br />
 
-            <input type="file" onChange={this.handleFile.bind(this)} ref={input => this.fileInput = input} className="input"/> <br />
+            <input type="file" accept="image/*" onChange={this.handleFile.bind(this)} ref={input => this.fileInput = input} className="input"/> <br />
             <hr/>
             <div>
                 <img src="" alt="art" id="preview" height="200px" />  <br />

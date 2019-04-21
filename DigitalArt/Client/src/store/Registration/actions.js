@@ -45,7 +45,3 @@ export const registrationUser = (user) => {
             .catch(error => dispatch(registrationUserUnsuccess(error)))
     }
 };
-
-
-
-

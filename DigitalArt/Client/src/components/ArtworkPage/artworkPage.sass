@@ -10,15 +10,91 @@
   justify-content: center
   background: rgba(0, 0, 0, 0.8)
   .ArtworkPage__container
-    background: rgba(255, 255, 255, 0.85)
+    background: rgba(255, 255, 255, 0.95)
     margin-top: 30px
-    width: 1000px
+    width: 1200px
     display: flex
     flex-direction: column
     position: absolute
     .Artwork__img
       margin: 30px auto
-      max-width: 900px
+      max-width: 1000px
+      
+    .ArtworkPage__assessment_container
+      background: #14121c
+      padding: 40px
+      color: azure
+
+      .ArtworkPage__assessment_header
+        font-family: 'Josefin Sans', sans-serif
+        font-size: 26px
+        margin-bottom: 30px
+
+      .ArtworkPage__assessment_description
+        font-size: 16px
+        line-height: 25px
+
+      .ArtworkPage__assessment_author
+        display: flex
+        flex-direction: row
+        margin: 30px 0 30px
+        .ArtworkPage__assessment_author_avatar
+          width: 50px
+          height: 50px
+          border-radius: 50%
+        .ArtworkPage__assessment_author_block
+          display: flex
+          flex-direction: column
+          margin-left: 10px
+          justify-content: space-between
+          .ArtworkPage__assessment_author_name
+            font-size: 14px
+
+          .ArtworkPage__assessment_author_sub
+            background: #e65158
+            padding: 3px
+            font-size: 12px
+            text-align: center
+            border-radius: 5px
+            cursor: pointer
+            &:hover
+              background: #e63131
+
+    .ArtworkPage__like_container
+      background: rgb(11, 9, 18)
+      color: azure
+      padding: 40px
+      .Artwork__like_wrapper
+        margin: 40px auto
+        .Artwork__like
+          background: #1654ff
+          width: 80px
+          height: 80px
+          border-radius: 50%
+          margin: 20px auto 10px
+          display: flex
+          justify-content: center
+          align-items: center
+          font-size: 24px
+          box-shadow: 0 0 20px rgba(22, 84, 255, 0.4)
+          cursor: pointer
+          &:hover
+            background: #0e34ff
+            box-shadow: 0 0 25px rgba(22, 84, 255, 0.5)
+
+        .Artwork__like_statistic
+          margin-top: 25px
+          text-align: center
+          color: rgba(186, 186, 186, 0.8)
+          font-size: 14px
+
+
+
+      .ArtworkPage__assessment_date
+        font-size: 13px
+        text-align: center
+        margin-top: 30px
+        color: rgba(186, 186, 186, 0.8)
 
 
   .ArtworkPage__close_wrapper

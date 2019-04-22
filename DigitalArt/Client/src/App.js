@@ -20,7 +20,6 @@ const App = ({ children }) => (
      <Provider store={store}>
         <Header />
          {children}
-
      </Provider>
 );
 

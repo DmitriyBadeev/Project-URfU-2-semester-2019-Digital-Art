@@ -11,9 +11,9 @@ const Main              =   React.lazy(() => import("./components/Main/MainConta
 const NotFound          =   React.lazy(() => import("./components/NotFound"));
 const ProfilePage       =   React.lazy(() => import("./components/Profile/ProfilePageContainer"));
 const AddArtworkPage    =   React.lazy(() => import("./components/AddArtwork/AddArtworkPageContainer"));
-//const ArtworkPage       =   React.lazy(() => import("./components/ArtworkPage/ArtworkPageContainer"));
+const ArtworkPage       =   React.lazy(() => import("./components/ArtworkPage/ArtworkPageContainer"));
 
-import ArtworkPage from "./components/ArtworkPage/ArtworkPageContainer";
+//import ArtworkPage from "./components/ArtworkPage/ArtworkPageContainer";
 
 //import Main from "./components/Main/MainContainer";
 //import RegistrationForm from "./components/RegistrationForm/RegistrationFormContainer";

@@ -72,7 +72,8 @@ namespace DigitalArt.Controllers
                     description = a.Description,
                     date = a.DateOfPublication,
                     countLikes = a.Likes.Count,
-                    coments = a.Comments.Select(c => new
+                    countComments = a.Comments.Count,
+                    comments = a.Comments.Select(c => new
                                     {
                                         commentAuthor = c.Author.Name + " " + c.Author.LastName,
                                         commentAuthorId = c.Author.Id,

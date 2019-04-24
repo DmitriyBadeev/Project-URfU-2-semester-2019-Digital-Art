@@ -3,6 +3,8 @@ import React from "react";
 import "./artworkPage.sass";
 import Loading from "../general/Loading/Loading";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Button from "../general/Button/ButtonFnc";
+import Comment from "./Comment";
 
 export default class ArtworkPage extends React.Component{
 
@@ -10,11 +12,16 @@ export default class ArtworkPage extends React.Component{
         this.props.getArtwork(this.props.openArtworkId);
 
         document.body.style.overflow = "hidden";
+
+        if (this.props.userId === "")
+            return;
+
+        this.props.getLike(this.props.userId, this.props.openArtworkId);
     }
 
     componentDidUpdate() {
-        if(!this.props.isLoading)
-            history.pushState(null, null, `/artwork/${this.props.artwork.id}`);
+        //if(!this.props.isLoading)
+        //    history.pushState(null, null, `/artwork/${this.props.artwork.id}`);
     }
 
     componentWillUnmount() {
@@ -24,14 +31,34 @@ export default class ArtworkPage extends React.Component{
     closeHandler() {
         this.props.closeArtwork();
 
-        history.back()
+        //history.back()
+    }
+
+    likeHandler() {
+
+        if (this.props.userId === "") {
+            document.getElementById("massageArt").innerText = "Зарегистрируйтесь, чтобы оценить работу";
+            return;
+        }
+
+
+        const like = {
+            UserId: this.props.userId,
+            ArtworkId: this.props.openArtworkId
+        };
+        this.props.postLike(like);
+    }
+
+    deleteLikeHandler() {
+        this.props.deleteLike(this.props.userId, this.props.openArtworkId);
     }
 
     render() {
         return <div className="ArtworkPage__wrapper">
-            <div className="ArtworkPage__container">
+
                 {this.props.isLoading? <Loading /> :
-                <img src={`data:image/JPEG;base64,${this.props.artwork.art}`} alt="art" className="Artwork__img"/>}
+            <div className="ArtworkPage__container">
+                <img src={`data:image/JPEG;base64,${this.props.artwork.art}`} alt="art" className="Artwork__img"/>
                 <div className="ArtworkPage__assessment_container">
                     <h2 className="ArtworkPage__assessment_header">{this.props.artwork.name}</h2>
                     <p className="ArtworkPage__assessment_description">{this.props.artwork.description}</p>
@@ -47,12 +74,18 @@ export default class ArtworkPage extends React.Component{
                 </div>
                 <div className="ArtworkPage__like_container">
                     <div className="Artwork__like_wrapper">
-                        <div className="Artwork__like">
-                            <FontAwesomeIcon icon="thumbs-up" />
-                        </div>
+                        {this.props.artwork.isLikedArt?
+                            <div className="Artwork__like_active" onClick={this.deleteLikeHandler.bind(this)}>
+                                <FontAwesomeIcon icon="thumbs-up" />
+                            </div>
+                            :
+                            <div className="Artwork__like" id="like" onClick={this.likeHandler.bind(this)}>
+                                <FontAwesomeIcon icon="thumbs-up" />
+                            </div> }
                         <div className="Artwork__like_statistic">
                             <FontAwesomeIcon icon="thumbs-up" /> {this.props.artwork.countLikes} &nbsp;&nbsp;<FontAwesomeIcon icon="comment-alt" /> {this.props.artwork.countComments}
                         </div>
+                        <div id="massageArt" className="Artwork__like_massage">{this.props.massage}</div>
                     </div>
                     <div className="ArtworkPage__assessment_date">Опубликовано: {
                         new Date(this.props.artwork.date).toLocaleString("ru",
@@ -64,7 +97,30 @@ export default class ArtworkPage extends React.Component{
                     </div>
                 </div>
 
-            </div>
+                <div className="ArtworkPage__comment_container">
+                    <div className="ArtworkPage__comment_input_wrapper">
+                        <img src={`data:image/JPEG;base64,${this.props.artwork.authorAvatar}`}
+                              alt="avatar" className="ArtworkPage__comment_avatar"/>
+                        <div>
+                            <textarea  className="ArtworkPage__comment_input" placeholder="Что вы думаете об этой работе?"/>
+                            <Button className="button ArtworkPage__comment_btn" text="Опубликовать комментарий"/>
+                        </div>
+                    </div>
+
+                    <div className="ArtworkPage__comments_wrapper">
+                        {this.props.artwork.countComments === 0 || !this.props.artwork.comments?
+                            <p className="ArtworkPage__comments_message">Будьте первым, кто оставит комментарий!</p>:
+                            this.props.artwork.comments.map(c => <Comment
+                                authorName = {c.commentAuthor}
+                                authorAvatar = {c.commentAuthorAvatar}
+                                authorId = {c.commentAuthorId}
+                                comment = {c.comment}
+                            />)
+                        }
+                    </div>
+                </div>
+            </div>}
+
 
             <div className="ArtworkPage__close_wrapper" onClick={this.closeHandler.bind(this)}>&#10006;</div>
         </div>

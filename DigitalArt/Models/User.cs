@@ -11,6 +11,12 @@ namespace DigitalArt.Models
 
         public string Email { get; set; }
 
+        //date birthday
+
+        //status
+
+        //about
+
         public string Password { get; set; }
 
         public byte[] Avatar { get; set; }

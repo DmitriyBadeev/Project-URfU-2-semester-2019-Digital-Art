@@ -6,6 +6,7 @@ import { headerReducer } from "./Header/reducers";
 import { userInfoReducer } from "./Header/UserInfo/reducers";
 import { addArtworkReducer } from "./AddArtwork/reducers";
 import { profileReducer } from "./Profile/reducers";
+import { ArtworkPageReducer } from "./ArtworkPage/reducers";
 
 export default combineReducers({
     registration: registrationReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
     header: headerReducer,
     userInfo: userInfoReducer,
     addArtwork: addArtworkReducer,
-    profile: profileReducer
+    profile: profileReducer,
+    artworkPage: ArtworkPageReducer
 });

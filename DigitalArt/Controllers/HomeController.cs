@@ -71,11 +71,11 @@ namespace DigitalArt.Controllers
                     authorId = a.Author.Id,
                     description = a.Description,
                     date = a.DateOfPublication,
-                    countLikes = a.Likes.Count,
                     countComments = a.Comments.Count,
                     comments = a.Comments.Select(c => new
                                     {
                                         commentAuthor = c.Author.Name + " " + c.Author.LastName,
+                                        commentAuthorAvatar = c.Author.Avatar,
                                         commentAuthorId = c.Author.Id,
                                         comment = c.CommentString 
                                     }),
@@ -199,8 +199,6 @@ namespace DigitalArt.Controllers
         public IFormFile File { get; set; }
 
         public string Description { get; set; }
-
-        //public DateTime Date { get; set; }
          
         public string Tags { get; set; }
     }

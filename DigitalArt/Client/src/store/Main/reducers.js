@@ -2,9 +2,8 @@ import {
     GET_ARTWORKS_SUCCESS,
     GET_ARTWORKS_UNSUCCESS,
     GET_ARTWORKS_LOADING,
-    GET_ARTWORK_LOADING,
-    GET_ARTWORK_SUCCESS,
-    GET_ARTWORK_UNSUCCESS, OPEN_ARTWORK_PAGE, CLOSE_ARTWORK_PAGE
+    OPEN_ARTWORK_PAGE,
+    CLOSE_ARTWORK_PAGE,
 } from './actions';
 
 const defaultState = {
@@ -12,9 +11,12 @@ const defaultState = {
     massage: "",
     isLoadingMain: false,
     isLoadingArt: false,
-    artwork: {},
+    artwork: {
+        isLikedArt: false,
+        countLikes: 0
+    },
     isOpenArtwork: false,
-    openArtworkId: 0
+    openArtworkId: 0,
 };
 
 export const mainReducer = (state = defaultState, action) => {
@@ -36,35 +38,20 @@ export const mainReducer = (state = defaultState, action) => {
                 ...state,
                 isLoadingMain: true
             };
-        case GET_ARTWORK_SUCCESS:
-            return {
-                ...state,
-                artwork: action.payload,
-                isLoadingArt: false
-            };
-        case GET_ARTWORK_UNSUCCESS:
-            return {
-                ...state,
-                massage: "Данные не были получены. Произошла ощибка :( " + action.payload,
-                isLoadingArt: false
-            };
-        case GET_ARTWORK_LOADING:
-            return {
-                ...state,
-                isLoadingArt: true
-            };
+
         case OPEN_ARTWORK_PAGE:
             return {
                 ...state,
                 isOpenArtwork: true,
                 openArtworkId: action.payload
             };
+
         case CLOSE_ARTWORK_PAGE:
             return {
                 ...state,
                 isOpenArtwork: false,
                 openArtworkId: 0
-            }
+            };
     }
 
     return state;

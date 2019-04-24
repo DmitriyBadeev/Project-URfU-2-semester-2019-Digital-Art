@@ -14,3 +14,9 @@ export const GET_USER_INFO_URL = '/users';
 export const REGISTRATION_URL = '/registration';
 
 export const AUTHORIZATION_URL = '/auth';
+
+export const GET_LIKES_URL = '/likes';
+
+export const POST_LIKE_URL = '/likes';
+
+export const DELETE_LIKE_URL = '/likes';

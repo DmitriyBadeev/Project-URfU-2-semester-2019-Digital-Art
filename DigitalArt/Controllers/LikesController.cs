@@ -21,39 +21,70 @@ namespace DigitalArt.Controllers
             _context = context;
         }
 
-        // GET: api/likes/3
-        [HttpGet("{idArt}")]
-        public int GetLikes([FromRoute] int idArt)
+        // GET: api/likes
+        [HttpGet]
+        public async Task<IActionResult> GetLikes([FromQuery] int userId, [FromQuery] int artworkId)
         {
-            return _context.Likes.Where(c => c.Artwork.Id == idArt).Count();
+            var count = await _context.Likes.CountAsync(c => c.Artwork.Id == artworkId);
+            var isLiked = await _context.Likes.AnyAsync(l => l.LikedUser.Id == userId && l.Artwork.Id == artworkId);
+
+            var response = new
+            {
+                countLikes = count,
+                isLiked = isLiked
+            };
+
+            return Ok(response);
         }
 
         // POST: api/likes
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> PostLike([FromBody] Like like)
+        public async Task<IActionResult> PostLike([FromBody] LikeData likeData)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var user = await _context.Users.FindAsync(likeData.UserId);
+            var artwork = await _context.Artworks.FindAsync(likeData.ArtworkId);
+
+            var like = new Like
+            {
+                Artwork = artwork,
+                LikedUser = user
+            };
+
+            var sameLike = await _context.Likes.FirstOrDefaultAsync(l =>
+                l.Artwork.Id == likeData.ArtworkId && l.LikedUser.Id == likeData.UserId);
+
+            if (sameLike != null)
+            {
+                var sameCount = _context.Likes.Count(c => c.Artwork.Id == artwork.Id);
+
+                return Ok(sameCount);
             }
 
             _context.Likes.Add(like);
             await _context.SaveChangesAsync();
 
-            return Ok(like);
+            var currentCount = _context.Likes.Count(c => c.Artwork.Id == artwork.Id);
+
+            return Ok(currentCount);
         }
 
-        // DELETE: api/Likes/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLike([FromRoute] Like userLike)
+        // DELETE: api/Likes
+        [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteLike([FromQuery] int userId, [FromQuery] int artworkId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var like = await _context.Likes.FindAsync(userLike);
+            var like = await _context.Likes.FirstOrDefaultAsync(l => l.Artwork.Id == artworkId && l.LikedUser.Id == userId);
             if (like == null)
             {
                 return NotFound();
@@ -62,7 +93,16 @@ namespace DigitalArt.Controllers
             _context.Likes.Remove(like);
             await _context.SaveChangesAsync();
 
-            return Ok(like);
+            var currentCount = await _context.Likes.CountAsync(c => c.Artwork.Id == artworkId);
+
+            return Ok(currentCount);
         }
+    }
+
+    public class LikeData
+    {
+        public int UserId { get; set; }
+
+        public int ArtworkId { get; set; }
     }
 }

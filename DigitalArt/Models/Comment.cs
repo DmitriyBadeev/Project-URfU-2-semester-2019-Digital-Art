@@ -15,6 +15,6 @@ namespace DigitalArt.Models
 
         public string CommentString { get; set; }
 
-        public ICollection<Like> Likes { get; set; }
+        public DateTime DateOfPublication { get; set; }
     }
 }

@@ -15,6 +15,8 @@
     width: 100%
     height: 100%
     cursor: pointer
+    .Artwork__assessments
+      display: none
     .Artwork__name
       display: none
     .Artwork__author
@@ -24,6 +26,8 @@
     .Artwork__comments
       display: none
     .Artwork__btnClose
+      display: none
+    .Artwork__views
       display: none
 
   .Artwork__info:hover
@@ -42,22 +46,38 @@
       display: block
       position: absolute
       width: 100%
-      font-weight: lighter
       bottom: 30px
       left: 30px
       font-size: 12px
+
+    .Artwork__assessments
+      display: block
+      position: absolute
+      bottom: 30px
+      right: 25px
+      font-size: 14px
 
     .Artwork__likes
       display: block
       position: absolute
       bottom: 30px
-      right: 30px
+      right: 25px
+      font-size: 14px
 
     .Artwork__comments
       display: block
       position: absolute
       bottom: 29px
-      right: 90px
+      right: 75px
+      font-size: 14px
+
+    .Artwork__views
+      display: block
+      position: absolute
+      bottom: 29px
+      right: 125px
+      font-size: 14px
+
     .Artwork__btnClose
       transition: all 0.2s
       position: absolute

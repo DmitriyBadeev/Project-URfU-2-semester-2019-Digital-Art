@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DigitalArt.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
@@ -22,7 +23,28 @@ namespace DigitalArt.Controllers
         public AuthController(Context context)
         {
             _context = context;
-        } 
+        }
+        // GET: api/auth
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAuthUser()
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
+
+            if (user == null)
+                return NotFound();
+
+            var response = new
+            {
+                id = user.Id,
+                email = user.Email,
+                name = user.Name,
+                lastName = user.LastName,
+                avatar = user.Avatar,
+            };
+
+            return Ok(response);
+        }
 
         // POST: api/auth
         [HttpPost]
@@ -45,14 +67,8 @@ namespace DigitalArt.Controllers
             var response = new
             {
                 accses_token = encodedJwt,
-                //id = user.Id,
-                //email = user.Email,
-                //name = user.Name,
-                //lastName = user.LastName
             };
 
-            Response.ContentType = "application/json";
-            //await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
             return Ok(response);
         }
 

@@ -24,12 +24,10 @@ namespace DigitalArt.Controllers
 
         // GET: api/Users
         
-        [HttpGet]
-        public async Task<IActionResult> GetUser()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUser([FromRoute] int id)
         {
-            var user = await _context.Users
-                    .Include(u => u.Artworks)
-                    .FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
+            var user = await _context.Users.FindAsync(id);
 
             if (user == null)
             {
@@ -49,7 +47,8 @@ namespace DigitalArt.Controllers
                     author = a.Author.Name + " " + a.Author.LastName,
                     date = a.DateOfPublication,
                     countLikes = a.Likes.Count,
-                    countComents = a.Comments.Count,
+                    countComments = a.Comments.Count,
+                    countViews = a.CountViews,
                     art = a.Art,
                     tags = a.Tags.Select(t => t.TagName).ToList()
                 });

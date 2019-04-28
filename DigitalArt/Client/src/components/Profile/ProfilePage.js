@@ -12,7 +12,12 @@ import Loading from "../general/Loading/Loading";
 export default class ProfilePage extends React.Component {
 
     componentDidMount() {
-        this.props.getUserInfo();
+        this.props.getUserInfo(this.props.routeId);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.routeId !== nextProps.routeId)
+            this.props.getUserInfo(nextProps.routeId);
     }
 
     handleFile(e) {
@@ -40,7 +45,16 @@ export default class ProfilePage extends React.Component {
     countComment() {
         let count = 0;
         this.props.artworks.forEach((art) => {
-            count += art.countComents;
+            count += art.countComments;
+        });
+
+        return count;
+    }
+
+    countView() {
+        let count = 0;
+        this.props.artworks.forEach((art) => {
+            count += art.countViews;
         });
 
         return count;
@@ -62,12 +76,12 @@ export default class ProfilePage extends React.Component {
                     <p className="Profile__info">Всего работ: <strong>{this.props.artworks.length}</strong></p>
                     <p className="Profile__info">Количество лайков: <strong>{this.countLike()}</strong></p>
                     <p className="Profile__info">Количество комментариев: <strong>{this.countComment()}</strong></p>
+                    <p className="Profile__info">Количество просмотров: <strong>{this.countView()}</strong></p>
                 </div>
                 <ButtonLink className="Profile__addArt button" link="/add-artwork" text="Добавить работу"/>
             </div>
-
+            
             <div className="Profile__usersArtworks">
-
                 <div className="Profile__filter">
                     <Button className="Profile__btn smallButton smallButton__active" text="Самые новые"/>
                     <Button className="Profile__btn smallButton" text="Самые популярные"/>

@@ -10,6 +10,8 @@ import {
     POST_COMMENT_UNSUCCESS,
     POST_LIKE_SUCCESS,
     POST_LIKE_UNSUCCESS,
+    POST_VIEW_SUCCESS,
+    POST_VIEW_UNSUCCESS
 } from './actions';
 
 const defaultState = {
@@ -108,6 +110,21 @@ export const ArtworkPageReducer = (state = defaultState, action) => {
                 ...state,
                 massage: "Произошла ошибка :( " + action.payload
             };
+
+        case POST_VIEW_SUCCESS:
+            return {
+                ...state,
+                artwork: {
+                    ...state.artwork,
+                    countViews: action.payload
+                }
+            };
+
+        case POST_VIEW_UNSUCCESS:
+            return {
+                ...state,
+                massage: "Произошла ошибка :( " + action.payload
+            }
     }
 
     return state;

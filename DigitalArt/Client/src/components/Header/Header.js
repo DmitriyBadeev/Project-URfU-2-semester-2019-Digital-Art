@@ -11,17 +11,11 @@ import ArtworkPage from "../ArtworkPage/ArtworkPageContainer";
 export default class Footer extends React.Component {
 
     registrationClick() {
-        if (this.props.isOpenRegistration)
-            this.props.closeRegistration();
-        else
-            this.props.openRegistration();
+        this.props.openRegistration();
     }
 
     authClick() {
-        if (this.props.isOpenAuth)
-            this.props.closeAuth();
-        else
-            this.props.openAuth();
+        this.props.openAuth();
     }
 
     render() {

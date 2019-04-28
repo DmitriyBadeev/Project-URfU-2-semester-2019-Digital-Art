@@ -26,8 +26,11 @@ export default class Artwork extends  React.Component{
                 <div className="Artwork__info">
                     <h5 className="Artwork__name">{this.props.art.name}</h5>
                     <p className="Artwork__author">{this.props.art.author}</p>
-                    <p className="Artwork__likes"><FontAwesomeIcon icon="thumbs-up" /> {this.props.art.countLikes}</p>
-                    <p className="Artwork__comments"><FontAwesomeIcon icon="comment-alt" /> {this.props.art.countComments}</p>
+                    <p className="Artwork__assessments">
+                        &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon="thumbs-up" /> {this.props.art.countLikes}
+                        &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon="comment-alt" /> {this.props.art.countComments}
+                        &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon="eye" /> {this.props.art.countViews}
+                    </p>
                     {this.props.isAuthUser? <div className="Artwork__btnClose" onClick={this.toDeleteArtwork.bind(this)}>&#10006;</div> : null}
                 </div>
             </figure>

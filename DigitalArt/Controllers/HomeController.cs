@@ -40,6 +40,7 @@ namespace DigitalArt.Controllers
                     date = a.DateOfPublication,
                     countLikes = a.Likes.Count,
                     countComments = a.Comments.Count,
+                    countViews = a.CountViews,
                     tags = a.Tags.Select(t => t.TagName).ToList(),
                     art = a.Art
                 });
@@ -73,6 +74,7 @@ namespace DigitalArt.Controllers
                     date = a.DateOfPublication,
                     countComments = a.Comments.Count,
                     countLikes = a.Likes.Count,
+                    countViews = a.CountViews,
                     comments = a.Comments
                         .Select(c => new
                         {

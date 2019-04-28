@@ -4,7 +4,8 @@ import {
     MAIN_PATH,
     POST_LIKE_URL,
     DELETE_LIKE_URL,
-    POST_COMMENT_URL
+    POST_COMMENT_URL,
+    POST_VIEW_URL
 } from "../../Config";
 import axios from "axios";
 
@@ -23,6 +24,9 @@ export const POST_COMMENT_UNSUCCESS = 'POST_COMMENT_UNSUCCESS';
 export const GET_ARTWORK_SUCCESS = 'GET_ARTWORK_SUCCESS';
 export const GET_ARTWORK_UNSUCCESS = 'GET_ARTWORK_UNSUCCESS';
 export const GET_ARTWORK_LOADING = 'GET_ARTWORK_LOADING';
+
+export const POST_VIEW_SUCCESS = 'POST_VIEW_SUCCESS';
+export const POST_VIEW_UNSUCCESS = 'POST_VIEW_UNSUCCESS';
 
 export const getArtworkSuccess = (work) => {
     return {
@@ -97,6 +101,31 @@ const postCommentUnsuccess = (error) => {
     return {
         type: POST_COMMENT_UNSUCCESS,
         payload: error
+    }
+};
+
+const postViewSuccess = (count) => {
+    return {
+        type: POST_VIEW_SUCCESS,
+        payload: count
+    }
+};
+
+const postViewUnsuccess = (error) => {
+    return {
+        type: POST_VIEW_UNSUCCESS,
+        payload: error
+    }
+};
+
+export const postView = (idArt) => {
+    console.log(MAIN_PATH+POST_VIEW_URL(idArt));
+    return dispatch => {
+        axios.post(MAIN_PATH+POST_VIEW_URL(idArt))
+            .then(res => {
+                dispatch(postViewSuccess(res.data))
+            })
+            .catch(error => dispatch(postViewUnsuccess(error)))
     }
 };
 

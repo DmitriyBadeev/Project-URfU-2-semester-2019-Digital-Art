@@ -8,6 +8,10 @@ import {deleteArtwork} from "../../store/Profile/actions";
 
 class ProfilePageContainer extends React.Component {
 
+    // componentWillReceiveProps(nextProps, nextContext) {
+    //     this.forceUpdate();
+    // }
+
     render() {
         return <ProfilePage
             getUserInfo = {this.props.getUserInfo}
@@ -20,6 +24,7 @@ class ProfilePageContainer extends React.Component {
             isLoadingInfo={this.props.isLoadingInfo}
             deleteArtwork={this.props.deleteArtwork}
             isLoadingDelete={this.props.isLoadingDelete}
+            routeId={this.props.match.params.userId}
         />
     }
 }
@@ -39,7 +44,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
         return {
-            getUserInfo: () => dispatch(getUserInfo()),
+            getUserInfo: (id) => dispatch(getUserInfo(id)),
             deleteArtwork: (id) => dispatch(deleteArtwork(id))
         }
 };

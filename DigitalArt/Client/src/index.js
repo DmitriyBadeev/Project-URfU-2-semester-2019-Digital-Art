@@ -14,7 +14,6 @@ const AddArtworkPage    =   React.lazy(() => import("./components/AddArtwork/Add
 const ArtworkPage       =   React.lazy(() => import("./components/ArtworkPage/ArtworkPageContainer"));
 
 //import ArtworkPage from "./components/ArtworkPage/ArtworkPageContainer";
-
 //import Main from "./components/Main/MainContainer";
 //import RegistrationForm from "./components/RegistrationForm/RegistrationFormContainer";
 //import NotFound from "./components/NotFound";
@@ -28,9 +27,9 @@ ReactDOM.render(
             <Suspense fallback={<Loading />}>
                 <Switch>
                     <Route exact path="/" component={props => <Main {...props} />} />
-                    <Route path="/profile" component={props => <ProfilePage {...props}/>} />
+                    <Route exact path="/profile/:userId" component={props => <ProfilePage {...props}/>} />
                     <Route path="/add-artwork" component={props => <AddArtworkPage {...props}/>} />
-                    <Route path="/:id" component={props => <ArtworkPage {...props}/>} />
+                    <Route exact path="/artwork/:artId" component={props => <ArtworkPage {...props}/>} />
                     <Route path="*" component={props => <NotFound {...props}/>} />
                 </Switch>
             </Suspense>

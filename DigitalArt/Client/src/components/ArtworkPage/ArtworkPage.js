@@ -3,25 +3,23 @@ import React from "react";
 import "./artworkPage.sass";
 import Loading from "../general/Loading/Loading";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import Button from "../general/Button/ButtonFnc";
 import Comment from "./Comment/Comment";
+import Link from "react-router-dom/es/Link";
 
 export default class ArtworkPage extends React.Component{
 
     componentDidMount() {
-        this.props.getArtwork(this.props.openArtworkId);
-
+        this.props.getArtwork(this.props.openArtworkId || this.props.routeId);
+        this.props.postView(this.props.openArtworkId || this.props.routeId);
         document.body.style.overflow = "hidden";
 
         if (this.props.userId === "")
             return;
 
         this.props.getLike(this.props.userId, this.props.openArtworkId);
-    }
 
-    componentDidUpdate() {
-        //if(!this.props.isLoading)
-        //    history.pushState(null, null, `/artwork/${this.props.artwork.id}`);
+        if(!this.props.isLoading)
+            history.pushState(null, null, `/artwork/${this.props.openArtworkId || this.props.routeId}`);
     }
 
     componentWillUnmount() {
@@ -31,12 +29,12 @@ export default class ArtworkPage extends React.Component{
     closeHandler() {
         this.props.closeArtwork();
 
-        //history.back()
+        history.back()
     }
 
     likeHandler() {
 
-        if (this.props.userId === "") {
+        if (!this.props.userId) {
             document.getElementById("massageArt").innerText = "Зарегистрируйтесь, чтобы оценить работу";
             return;
         }
@@ -69,18 +67,27 @@ export default class ArtworkPage extends React.Component{
     render() {
         return <div className="ArtworkPage__wrapper">
 
-                {this.props.isLoading? <Loading /> :
+            {this.props.isLoading? <Loading /> :
             <div className="ArtworkPage__container">
+                {this.props.openArtworkId === 0? <div className="margin" />: null}
                 <img src={`data:image/JPEG;base64,${this.props.artwork.art}`} alt="art" className="Artwork__img"/>
                 <div className="ArtworkPage__assessment_container">
                     <h2 className="ArtworkPage__assessment_header">{this.props.artwork.name}</h2>
                     <p className="ArtworkPage__assessment_description">{this.props.artwork.description}</p>
 
                     <div className="ArtworkPage__assessment_author">
-                        <img src={`data:image/JPEG;base64,${this.props.artwork.authorAvatar}`}
-                             alt="avatar" className="ArtworkPage__assessment_author_avatar"/>
+                        <Link to={`/profile/${this.props.artwork.authorId}`}
+                              onClick={this.props.closeArtwork.bind(this)}>
+                            <img src={`data:image/JPEG;base64,${this.props.artwork.authorAvatar}`}
+                                 alt="avatar" className="ArtworkPage__assessment_author_avatar"/>
+                        </Link>
                          <div className="ArtworkPage__assessment_author_block">
-                            <p className="ArtworkPage__assessment_author_name">{this.props.artwork.author}</p>
+                             <p className="ArtworkPage__assessment_author_name">
+                                 <Link to={`/profile/${this.props.artwork.authorId}`}
+                                       onClick={this.props.closeArtwork.bind(this)}>
+                                     {this.props.artwork.author}
+                                 </Link>
+                             </p>
                             <div className="ArtworkPage__assessment_author_sub">Подписаться</div>
                          </div>
                     </div>
@@ -96,8 +103,9 @@ export default class ArtworkPage extends React.Component{
                                 <FontAwesomeIcon icon="thumbs-up" />
                             </div> }
                         <div className="Artwork__like_statistic">
-                            <FontAwesomeIcon icon="thumbs-up" /> {this.props.artwork.countLikes}
-                                    &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon="comment-alt" /> {this.props.artwork.countComments}
+                                <FontAwesomeIcon icon="thumbs-up" /> {this.props.artwork.countLikes}
+                                &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon="comment-alt" /> {this.props.artwork.countComments}
+                                &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon="eye" /> {this.props.artwork.countViews}
                         </div>
                         <div id="massageArt" className="Artwork__like_massage">{this.props.massage}</div>
                     </div>
@@ -133,6 +141,7 @@ export default class ArtworkPage extends React.Component{
                                 authorId = {c.commentAuthorId}
                                 comment = {c.comment}
                                 date = {c.date}
+                                closeArtwork={this.props.closeArtwork}
                             />)
                         }
                     </div>
@@ -140,7 +149,7 @@ export default class ArtworkPage extends React.Component{
             </div>}
 
 
-            <div className="ArtworkPage__close_wrapper" onClick={this.closeHandler.bind(this)}>&#10006;</div>
+            {this.props.openArtworkId === 0? null: <div className="ArtworkPage__close_wrapper" onClick={this.closeHandler.bind(this)}>&#10006;</div>}
         </div>
     }
 }

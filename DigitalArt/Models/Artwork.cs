@@ -24,5 +24,7 @@ namespace DigitalArt.Models
         public ICollection<Comment> Comments { get; set; }
 
         public DateTime DateOfPublication { get; set; }
+
+        public int CountViews { get; set; }
     }
 }

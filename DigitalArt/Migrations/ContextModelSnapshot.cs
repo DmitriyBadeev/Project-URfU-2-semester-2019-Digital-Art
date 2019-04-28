@@ -29,6 +29,8 @@ namespace DigitalArt.Migrations
 
                     b.Property<int?>("AuthorId");
 
+                    b.Property<int>("CountViews");
+
                     b.Property<DateTime>("DateOfPublication");
 
                     b.Property<string>("Description");

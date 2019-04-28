@@ -1,6 +1,7 @@
 import React from "react";
 
 import './comment.sass';
+import Link from "react-router-dom/es/Link";
 
 export default class Comment extends React.Component {
 
@@ -45,11 +46,17 @@ export default class Comment extends React.Component {
     render() {
         return <div className="Comment__container">
             <div className="Comment__author">
-                <img src={`data:image/JPEG;base64,${this.props.authorAvatar}`} alt="avatar" className="Comment__author_avatar" />
+                <Link to={`/profile/${this.props.authorId}`} onClick={this.props.closeArtwork.bind(this)}>
+                    <img src={`data:image/JPEG;base64,${this.props.authorAvatar}`} alt="avatar" className="Comment__author_avatar" />
+                </Link>
             </div>
             <div className="Comment__wrapper">
                 <div className="Comment__wrapper_header">
-                    <p className="Comment__author_name">{this.props.authorName}</p>
+                    <p className="Comment__author_name">
+                        <Link to={`/profile/${this.props.authorId}`} onClick={this.props.closeArtwork.bind(this)}>
+                            {this.props.authorName}
+                        </Link>
+                    </p>
                     <p className="Comment__timeAgo"> &bull; {this.getTimeAgo()}</p>
                 </div>
                 <div className="Comment__text">{this.props.comment}</div>

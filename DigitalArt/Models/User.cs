@@ -11,11 +11,11 @@ namespace DigitalArt.Models
 
         public string Email { get; set; }
 
-        //date birthday
+        public DateTime DateOfBirthDay { get; set; }
 
-        //status
+        public string Status { get; set; }
 
-        //about
+        public string About { get; set; }
 
         public string Password { get; set; }
 

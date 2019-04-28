@@ -4,7 +4,7 @@ import "./artworkPage.sass";
 import Loading from "../general/Loading/Loading";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Button from "../general/Button/ButtonFnc";
-import Comment from "./Comment";
+import Comment from "./Comment/Comment";
 
 export default class ArtworkPage extends React.Component{
 
@@ -25,7 +25,7 @@ export default class ArtworkPage extends React.Component{
     }
 
     componentWillUnmount() {
-        document.body.style.overflow = "scroll";
+        document.body.style.overflow = "auto";
     }
 
     closeHandler() {
@@ -51,6 +51,19 @@ export default class ArtworkPage extends React.Component{
 
     deleteLikeHandler() {
         this.props.deleteLike(this.props.userId, this.props.openArtworkId);
+    }
+
+    commentHandler() {
+
+        const comment = {
+            IdAuthor: this.props.userId,
+            idArt: this.props.openArtworkId,
+            Comment: this.commentInput.value
+        };
+
+        this.props.postComment(comment);
+
+        this.commentInput.value = "";
     }
 
     render() {
@@ -83,7 +96,8 @@ export default class ArtworkPage extends React.Component{
                                 <FontAwesomeIcon icon="thumbs-up" />
                             </div> }
                         <div className="Artwork__like_statistic">
-                            <FontAwesomeIcon icon="thumbs-up" /> {this.props.artwork.countLikes} &nbsp;&nbsp;<FontAwesomeIcon icon="comment-alt" /> {this.props.artwork.countComments}
+                            <FontAwesomeIcon icon="thumbs-up" /> {this.props.artwork.countLikes}
+                                    &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon="comment-alt" /> {this.props.artwork.countComments}
                         </div>
                         <div id="massageArt" className="Artwork__like_massage">{this.props.massage}</div>
                     </div>
@@ -98,23 +112,27 @@ export default class ArtworkPage extends React.Component{
                 </div>
 
                 <div className="ArtworkPage__comment_container">
-                    <div className="ArtworkPage__comment_input_wrapper">
-                        <img src={`data:image/JPEG;base64,${this.props.artwork.authorAvatar}`}
+                    {this.props.isAuth ? <div className="ArtworkPage__comment_input_wrapper">
+                        <img src={`data:image/JPEG;base64,${this.props.userAvatar}`}
                               alt="avatar" className="ArtworkPage__comment_avatar"/>
                         <div>
-                            <textarea  className="ArtworkPage__comment_input" placeholder="Что вы думаете об этой работе?"/>
-                            <Button className="button ArtworkPage__comment_btn" text="Опубликовать комментарий"/>
+                            <textarea ref={input => this.commentInput = input} className="ArtworkPage__comment_input" placeholder="Что вы думаете об этой работе?"/>
+                            <div className="button ArtworkPage__comment_btn" onClick={this.commentHandler.bind(this)}>Опубликовать комментарий</div>
                         </div>
-                    </div>
+                    </div>: <div className="ArtworkPage__comment_input_wrapper">
+                        <p className="ArtworkPage__comment_text">Зарегистрируйтесь, чтобы иметь возможность комментировать</p>
+                    </div> }
 
                     <div className="ArtworkPage__comments_wrapper">
                         {this.props.artwork.countComments === 0 || !this.props.artwork.comments?
                             <p className="ArtworkPage__comments_message">Будьте первым, кто оставит комментарий!</p>:
-                            this.props.artwork.comments.map(c => <Comment
+                            this.props.artwork.comments.map((c, i) => <Comment
+                                key={i}
                                 authorName = {c.commentAuthor}
                                 authorAvatar = {c.commentAuthorAvatar}
                                 authorId = {c.commentAuthorId}
                                 comment = {c.comment}
+                                date = {c.date}
                             />)
                         }
                     </div>

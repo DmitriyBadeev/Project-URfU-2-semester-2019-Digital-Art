@@ -3,7 +3,8 @@ import {
     GET_LIKES_URL,
     MAIN_PATH,
     POST_LIKE_URL,
-    DELETE_LIKE_URL
+    DELETE_LIKE_URL,
+    POST_COMMENT_URL
 } from "../../Config";
 import axios from "axios";
 
@@ -15,6 +16,9 @@ export const POST_LIKE_UNSUCCESS = 'POST_LIKE_UNSUCCESS';
 
 export const DELETE_LIKE_SUCCESS = 'DELETE_LIKE_SUCCESS';
 export const DELETE_LIKE_UNSUCCESS = 'DELETE_LIKE_UNSUCCESS';
+
+export const POST_COMMENT_SUCCESS = 'POST_COMMENT_SUCCESS';
+export const POST_COMMENT_UNSUCCESS = 'POST_COMMENT_UNSUCCESS';
 
 export const GET_ARTWORK_SUCCESS = 'GET_ARTWORK_SUCCESS';
 export const GET_ARTWORK_UNSUCCESS = 'GET_ARTWORK_UNSUCCESS';
@@ -82,6 +86,34 @@ const deleteLikeUnsuccess = (error) => {
     }
 };
 
+const postCommentSuccess = (comment) => {
+    return {
+        type: POST_COMMENT_SUCCESS,
+        payload: comment
+    }
+};
+
+const postCommentUnsuccess = (error) => {
+    return {
+        type: POST_COMMENT_UNSUCCESS,
+        payload: error
+    }
+};
+
+export const postComment = comment => {
+    const options = {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`}
+    };
+
+    return dispatch => {
+        axios.post(MAIN_PATH+POST_COMMENT_URL, comment, options)
+            .then(res => {
+                dispatch(postCommentSuccess(res.data));
+            })
+            .catch(error => dispatch(postCommentUnsuccess(error)))
+    }
+};
+
 export const postLike = (likeData) => {
 
     const options = {
@@ -110,14 +142,13 @@ export const deleteLike = (userId, idArt) => {
     return dispatch => {
         axios.delete(MAIN_PATH+DELETE_LIKE_URL, options)
             .then(res => {
-                dispatch(deleteLikeSuccess(res.data))
+                dispatch(deleteLikeSuccess(res.data));
             })
             .catch(error => dispatch(deleteLikeUnsuccess(error)))
     }
 };
 
 export const getLike = (userId, idArt) => {
-    console.log(idArt + " get like for " + userId + " user on " + MAIN_PATH+GET_LIKES_URL);
 
     return dispatch => {
         axios.get(MAIN_PATH+GET_LIKES_URL, { params: { userId: userId, artworkId: idArt } })

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitalArt.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20190413181657_init")]
+    [Migration("20190424152723_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,8 @@ namespace DigitalArt.Migrations
 
                     b.Property<string>("CommentString");
 
+                    b.Property<DateTime>("DateOfPublication");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ArtworkId");
@@ -73,15 +75,11 @@ namespace DigitalArt.Migrations
 
                     b.Property<int?>("ArtworkId");
 
-                    b.Property<int?>("CommentId");
-
                     b.Property<int?>("LikedUserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ArtworkId");
-
-                    b.HasIndex("CommentId");
 
                     b.HasIndex("LikedUserId");
 
@@ -111,7 +109,11 @@ namespace DigitalArt.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("About");
+
                     b.Property<byte[]>("Avatar");
+
+                    b.Property<DateTime>("DateOfBirthDay");
 
                     b.Property<string>("Email");
 
@@ -122,6 +124,8 @@ namespace DigitalArt.Migrations
                     b.Property<string>("Password");
 
                     b.Property<string>("Role");
+
+                    b.Property<string>("Status");
 
                     b.HasKey("Id");
 
@@ -151,10 +155,6 @@ namespace DigitalArt.Migrations
                     b.HasOne("DigitalArt.Models.Artwork", "Artwork")
                         .WithMany("Likes")
                         .HasForeignKey("ArtworkId");
-
-                    b.HasOne("DigitalArt.Models.Comment")
-                        .WithMany("Likes")
-                        .HasForeignKey("CommentId");
 
                     b.HasOne("DigitalArt.Models.User", "LikedUser")
                         .WithMany()

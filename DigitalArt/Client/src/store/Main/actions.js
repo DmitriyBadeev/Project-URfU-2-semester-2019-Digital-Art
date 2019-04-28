@@ -8,6 +8,9 @@ export const GET_ARTWORKS_LOADING = 'GET_ARTWORKS_LOADING';
 export const OPEN_ARTWORK_PAGE = 'OPEN_ARTWORK_PAGE';
 export const CLOSE_ARTWORK_PAGE = 'CLOSE_ARTWORK_PAGE';
 
+export const UPDATE_COUNT_LIKE = 'UPDATE_COUNT_LIKE';
+export const UPDATE_COUNT_COMMENT = 'UPDATE_COUNT_COMMENT';
+
 export const getArtworksSuccess = (works) => {
     return {
         type: GET_ARTWORKS_SUCCESS,

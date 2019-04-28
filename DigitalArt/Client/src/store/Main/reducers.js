@@ -11,10 +11,6 @@ const defaultState = {
     massage: "",
     isLoadingMain: false,
     isLoadingArt: false,
-    artwork: {
-        isLikedArt: false,
-        countLikes: 0
-    },
     isOpenArtwork: false,
     openArtworkId: 0,
 };

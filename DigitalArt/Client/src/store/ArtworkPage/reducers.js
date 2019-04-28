@@ -6,15 +6,16 @@ import {
     GET_ARTWORK_UNSUCCESS,
     GET_LIKES_SUCCESS,
     GET_LIKES_UNSUCCESS,
+    POST_COMMENT_SUCCESS,
+    POST_COMMENT_UNSUCCESS,
     POST_LIKE_SUCCESS,
-    POST_LIKE_UNSUCCESS
+    POST_LIKE_UNSUCCESS,
 } from './actions';
 
 const defaultState = {
     isLoadingArt: false,
     artwork: {
-        isLikedArt: false,
-        countLikes: 0
+        isLikedArt: false
     },
     massage: ""
 };
@@ -26,10 +27,10 @@ export const ArtworkPageReducer = (state = defaultState, action) => {
                 ...state,
                 artwork: {
                     ...action.payload,
-                    isLikedArt: state.artwork.isLikedArt,
-                    countLikes: state.artwork.countLikes
+                    isLikedArt: state.artwork.isLikedArt
                 },
-                isLoadingArt: false
+                isLoadingArt: false,
+                massage: ""
             };
 
         case GET_ARTWORK_UNSUCCESS:
@@ -70,11 +71,13 @@ export const ArtworkPageReducer = (state = defaultState, action) => {
                     countLikes: action.payload
                 }
             };
+
         case POST_LIKE_UNSUCCESS:
             return {
                 ...state,
                 massage: "Произошла ошибка :( " + action.payload
             };
+
         case DELETE_LIKE_SUCCESS:
             return {
                 ...state,
@@ -84,11 +87,27 @@ export const ArtworkPageReducer = (state = defaultState, action) => {
                     countLikes: action.payload
                 }
             };
+
         case DELETE_LIKE_UNSUCCESS:
             return {
                 ...state,
                 massage: "Произошла ошибка :( " + action.payload
-            }
+            };
+
+        case POST_COMMENT_SUCCESS:
+            return {
+                ...state,
+                artwork: {
+                    ...state.artwork,
+                    comments: [...state.artwork.comments, action.payload],
+                    countComments: state.artwork.countComments + 1
+                }
+            };
+        case POST_COMMENT_UNSUCCESS:
+            return {
+                ...state,
+                massage: "Произошла ошибка :( " + action.payload
+            };
     }
 
     return state;

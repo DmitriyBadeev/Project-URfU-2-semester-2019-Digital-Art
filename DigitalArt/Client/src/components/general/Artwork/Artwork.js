@@ -17,8 +17,6 @@ export default class Artwork extends  React.Component{
     }
 
     openArtwork() {
-        console.log("open Artwork " + this.props.art.id);
-
         this.props.openArtwork(this.props.art.id);
     }
 
@@ -29,7 +27,7 @@ export default class Artwork extends  React.Component{
                     <h5 className="Artwork__name">{this.props.art.name}</h5>
                     <p className="Artwork__author">{this.props.art.author}</p>
                     <p className="Artwork__likes"><FontAwesomeIcon icon="thumbs-up" /> {this.props.art.countLikes}</p>
-                    <p className="Artwork__comments"><FontAwesomeIcon icon="comment-alt" /> {this.props.art.countComents}</p>
+                    <p className="Artwork__comments"><FontAwesomeIcon icon="comment-alt" /> {this.props.art.countComments}</p>
                     {this.props.isAuthUser? <div className="Artwork__btnClose" onClick={this.toDeleteArtwork.bind(this)}>&#10006;</div> : null}
                 </div>
             </figure>

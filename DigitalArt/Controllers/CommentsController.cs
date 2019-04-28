@@ -32,17 +32,47 @@ namespace DigitalArt.Controllers
         // POST: api/Comments
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> PostComment([FromBody] Comment comment)
+        public async Task<IActionResult> PostComment([FromBody] CommentData commentData)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var author = await _context.Users.FirstOrDefaultAsync(u => u.Id == commentData.IdAuthor);
+            var art = await _context.Artworks.FirstOrDefaultAsync(a => a.Id == commentData.IdArt);
+            var dateOfPublication = DateTime.Now;
+
+            var comment = new Comment
+            {
+                Author = author,
+                Artwork = art,
+                CommentString = commentData.Comment,
+                DateOfPublication = dateOfPublication
+            };
+
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
-            return Ok(comment);
+            var response = new
+            {
+                commentAuthor = author.Name + " " + author.LastName,
+                commentAuthorAvatar = author.Avatar,
+                commentAuthorId = author.Id,
+                comment = commentData.Comment,
+                date = dateOfPublication
+            };
+
+            return Ok(response);
         }
+    }
+
+    public class CommentData
+    {
+        public int IdAuthor { get; set; }
+
+        public int IdArt { get; set; }
+
+        public string Comment { get; set; }
     }
 }

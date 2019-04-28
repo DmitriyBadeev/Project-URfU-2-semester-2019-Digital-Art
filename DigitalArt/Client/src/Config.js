@@ -20,3 +20,5 @@ export const GET_LIKES_URL = '/likes';
 export const POST_LIKE_URL = '/likes';
 
 export const DELETE_LIKE_URL = '/likes';
+
+export const POST_COMMENT_URL = '/comments';

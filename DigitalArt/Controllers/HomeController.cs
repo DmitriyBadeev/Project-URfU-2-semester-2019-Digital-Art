@@ -39,7 +39,7 @@ namespace DigitalArt.Controllers
                     description = a.Description,
                     date = a.DateOfPublication,
                     countLikes = a.Likes.Count,
-                    countComents = a.Comments.Count,
+                    countComments = a.Comments.Count,
                     tags = a.Tags.Select(t => t.TagName).ToList(),
                     art = a.Art
                 });
@@ -72,13 +72,16 @@ namespace DigitalArt.Controllers
                     description = a.Description,
                     date = a.DateOfPublication,
                     countComments = a.Comments.Count,
-                    comments = a.Comments.Select(c => new
-                                    {
-                                        commentAuthor = c.Author.Name + " " + c.Author.LastName,
-                                        commentAuthorAvatar = c.Author.Avatar,
-                                        commentAuthorId = c.Author.Id,
-                                        comment = c.CommentString 
-                                    }),
+                    countLikes = a.Likes.Count,
+                    comments = a.Comments
+                        .Select(c => new
+                        {
+                            commentAuthor = c.Author.Name + " " + c.Author.LastName,
+                            commentAuthorAvatar = c.Author.Avatar,
+                            commentAuthorId = c.Author.Id,
+                            comment = c.CommentString,
+                            date = c.DateOfPublication
+                        }),
                     tags = a.Tags.Select(t => t.TagName).ToList(),
                     art = a.Art
                 }).FirstOrDefault();

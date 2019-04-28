@@ -3,7 +3,6 @@ C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\bin\Debug\netcoreapp2.1
 C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\bin\Debug\netcoreapp2.1\DigitalArt.runtimeconfig.dev.json
 C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\bin\Debug\netcoreapp2.1\DigitalArt.dll
 C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\bin\Debug\netcoreapp2.1\DigitalArt.pdb
-C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Debug\netcoreapp2.1\DigitalArt.csprojAssemblyReference.cache
 C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Debug\netcoreapp2.1\DigitalArt.csproj.CoreCompileInputs.cache
 C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Debug\netcoreapp2.1\DigitalArt.RazorAssemblyInfo.cache
 C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Debug\netcoreapp2.1\DigitalArt.RazorAssemblyInfo.cs
@@ -14,3 +13,4 @@ C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Debug\netcoreapp2.1
 C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Debug\netcoreapp2.1\DigitalArt.pdb
 C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\bin\Debug\netcoreapp2.1\DigitalArt.Views.dll
 C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Debug\netcoreapp2.1\DigitalArt.csproj.CopyComplete
+C:\Users\Admin\Desktop\Digital Art\DigitalArt\DigitalArt\obj\Debug\netcoreapp2.1\DigitalArt.csprojAssemblyReference.cache

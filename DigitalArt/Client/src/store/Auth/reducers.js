@@ -1,6 +1,5 @@
 import {AUTHORIZATION_SUCCESS,
-        AUTHORIZATION_UNSUCCESS,
-        IS_REDIRECTED} from "./actions";
+        AUTHORIZATION_UNSUCCESS} from "./actions";
 
 const defaultState = {
     token: '',

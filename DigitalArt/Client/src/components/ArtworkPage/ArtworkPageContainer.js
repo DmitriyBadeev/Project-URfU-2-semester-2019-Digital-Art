@@ -3,8 +3,8 @@ import React from "react";
 import ArtworkPage from "./ArtworkPage";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import {deleteLike, getLike, getUserArtwork, postLike} from "../../store/ArtworkPage/actions";
-import { closeArtworkPage } from "../../store/Main/actions";
+import {deleteLike, getLike, getUserArtwork, postLike, postComment} from "../../store/ArtworkPage/actions";
+import {closeArtworkPage, getArtworks} from "../../store/Main/actions";
 
 class ArtworkPageContainer extends React.Component {
 
@@ -20,6 +20,9 @@ class ArtworkPageContainer extends React.Component {
             postLike = {this.props.postLike}
             deleteLike = {this.props.deleteLike}
             massage = {this.props.massage}
+            postComment = {this.props.postComment}
+            isAuth = {this.props.isAuth}
+            userAvatar = {this.props.userAvatar}
         />
     }
 }
@@ -30,7 +33,9 @@ const mapStateToProps = state => {
         isLoading: state.artworkPage.isLoadingArt,
         openArtworkId: state.main.openArtworkId,
         userId: state.userInfo.id,
-        massage: state.artworkPage.massage
+        userAvatar: state.userInfo.avatar,
+        massage: state.artworkPage.massage,
+        isAuth: state.authorization.isAuth
     }
 };
 
@@ -40,7 +45,8 @@ const mapDispatchToProps = dispatch => {
         getArtwork: id => dispatch(getUserArtwork(id)),
         closeArtwork: () => dispatch(closeArtworkPage()),
         getLike: (userId, idArt) => dispatch(getLike(userId, idArt)),
-        deleteLike: (userId, idArt) => dispatch(deleteLike(userId, idArt))
+        deleteLike: (userId, idArt) => dispatch(deleteLike(userId, idArt)),
+        postComment: (comment) => dispatch(postComment(comment))
     }
 };
 

@@ -41,6 +41,11 @@ namespace DigitalArt.Controllers
                 name = user.Name,
                 lastName = user.LastName,
                 avatar = user.Avatar,
+                status = user.Status,
+                dateOfBirthday = user.DateOfBirthDay,
+                about = user.About,
+                country = user.Country,
+                city = user.City
             };
 
             return Ok(response);

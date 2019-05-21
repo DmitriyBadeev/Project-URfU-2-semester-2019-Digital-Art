@@ -37,13 +37,11 @@ const options = id => (
 export const deleteArtwork = (id) => {
     return dispatch => {
         dispatch(deleteArtworkLoading());
-        console.log(id);
-        console.log(options(id));
         axios(options(id))
             .then(res => {
                 console.log(res.data);
                 dispatch(deleteArtworkSuccess());
-                window.location.replace("/profile");
+                location.reload()
             })
             .catch(error => dispatch(deleteArtworkUnsuccess(error)))
     }

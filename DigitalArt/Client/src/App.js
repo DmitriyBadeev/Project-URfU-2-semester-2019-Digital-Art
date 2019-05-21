@@ -7,14 +7,13 @@ import thunk from 'redux-thunk';
 import rootReducer from './store/rootReducer';
 
 import Header from "./components/Header/HeaderContainer";
-import Footer from "./components/Footer/Footer";
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUser, faDiceD6, faThumbsUp, faCommentAlt, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faDiceD6, faThumbsUp, faCommentAlt, faEye, faCog, faFileDownload, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faUser, faDiceD6, faThumbsUp, faCommentAlt, faEye);
+library.add(faUser, faDiceD6, faThumbsUp, faCommentAlt, faEye, faCog, faFileDownload, faMapMarkerAlt);
 
 const App = ({ children }) => (
      <Provider store={store}>

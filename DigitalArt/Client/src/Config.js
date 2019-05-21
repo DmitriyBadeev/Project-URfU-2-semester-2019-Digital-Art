@@ -11,6 +11,8 @@ export const GET_ART_URL = (id) => `/home/${id}`;
 
 export const GET_USER_INFO_URL = (id) => `/users/${id}`;
 
+export const PUT_USER_INFO_URL = '/users';
+
 export const GET_AUTH_USER_URL = '/auth';
 
 export const REGISTRATION_URL = '/registration';

@@ -17,7 +17,7 @@ namespace DigitalArt.Models
 
         public User Author { get; set; }
 
-        public ICollection<Tag> Tags { get; set; }
+        public string Tags { get; set; }
 
         public ICollection<Like> Likes { get; set; }
 

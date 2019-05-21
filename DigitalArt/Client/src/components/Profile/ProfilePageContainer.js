@@ -8,13 +8,9 @@ import {deleteArtwork} from "../../store/Profile/actions";
 
 class ProfilePageContainer extends React.Component {
 
-    // componentWillReceiveProps(nextProps, nextContext) {
-    //     this.forceUpdate();
-    // }
-
     render() {
         return <ProfilePage
-            getUserInfo = {this.props.getUserInfo}
+            getUserInfo={this.props.getUserInfo}
             id={this.props.id}
             email={this.props.email}
             name={this.props.name}
@@ -25,6 +21,12 @@ class ProfilePageContainer extends React.Component {
             deleteArtwork={this.props.deleteArtwork}
             isLoadingDelete={this.props.isLoadingDelete}
             routeId={this.props.match.params.userId}
+            authUserId={this.props.authUserId}
+            dateOfBirthday={this.props.dateOfBirthday}
+            status={this.props.status}
+            about={this.props.about}
+            country={this.props.country}
+            city={this.props.city}
         />
     }
 }
@@ -37,14 +39,20 @@ const mapStateToProps = state => {
         lastName: state.userInfo.lastName,
         avatar: state.userInfo.avatar,
         artworks: state.userInfo.artworks,
+        authUserId: state.userInfo.authUser.id,
         isLoadingInfo: state.userInfo.isLoading,
-        isLoadingDelete: state.profile.isLoading
+        isLoadingDelete: state.profile.isLoading,
+        dateOfBirthday: state.userInfo.dateOfBirthday,
+        status: state.userInfo.status,
+        about: state.userInfo.about,
+        country: state.userInfo.country,
+        city: state.userInfo.city,
     }
 };
 
 const mapDispatchToProps = dispatch => {
         return {
-            getUserInfo: (id) => dispatch(getUserInfo(id)),
+            getUserInfo: (id, sortParams) => dispatch(getUserInfo(id, sortParams)),
             deleteArtwork: (id) => dispatch(deleteArtwork(id))
         }
 };

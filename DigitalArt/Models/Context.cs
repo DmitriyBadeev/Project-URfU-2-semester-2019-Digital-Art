@@ -12,7 +12,6 @@ namespace DigitalArt.Models
         public DbSet<Artwork> Artworks { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
-        public DbSet<Tag> Tags { get; set; }
 
         public Context(DbContextOptions<Context> options)
             : base(options)
@@ -32,10 +31,6 @@ namespace DigitalArt.Models
             modelBuilder.Entity<Artwork>()
                 .HasMany(a => a.Likes)
                 .WithOne(l => l.Artwork);
-
-            modelBuilder.Entity<Artwork>()
-                .HasMany(a => a.Tags)
-                .WithOne(t => t.Artwork);
         }
     }
 }

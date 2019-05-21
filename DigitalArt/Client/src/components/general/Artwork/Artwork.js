@@ -13,7 +13,6 @@ export default class Artwork extends  React.Component{
         if (!isExactly) return;
 
         this.props.deleteArtwork(idArt);
-        this.props.history.push('/profile');
     }
 
     openArtwork() {
@@ -21,9 +20,9 @@ export default class Artwork extends  React.Component{
     }
 
     render() {
-        return <figure className="Artwork__container" onClick={this.openArtwork.bind(this)}>
+        return <figure className="Artwork__container">
                 <img src={`data:image/JPEG;base64,${this.props.art.art}`} alt="art" className="Artwork__img"/>
-                <div className="Artwork__info">
+                <div className="Artwork__info" onClick={this.openArtwork.bind(this)}>
                     <h5 className="Artwork__name">{this.props.art.name}</h5>
                     <p className="Artwork__author">{this.props.art.author}</p>
                     <p className="Artwork__assessments">
@@ -31,8 +30,9 @@ export default class Artwork extends  React.Component{
                         &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon="comment-alt" /> {this.props.art.countComments}
                         &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon="eye" /> {this.props.art.countViews}
                     </p>
-                    {this.props.isAuthUser? <div className="Artwork__btnClose" onClick={this.toDeleteArtwork.bind(this)}>&#10006;</div> : null}
                 </div>
+            {this.props.id === this.props.authUserId && this.props.isProfile?
+                <div className="Artwork__btnClose" onClick={this.toDeleteArtwork.bind(this)}>&#10006;</div> : null}
             </figure>
     }
 }

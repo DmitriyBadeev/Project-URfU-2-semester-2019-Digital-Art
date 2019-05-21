@@ -64,6 +64,21 @@ export default class ArtworkPage extends React.Component{
         this.commentInput.value = "";
     }
 
+    getTags() {
+        if (this.props.artwork.tags == null)
+            return "";
+
+        let tags = this.props.artwork.tags;
+        let resultTags = '';
+        for (let i = 0; i < tags.length; i++)
+            if (tags[i] !== ',')
+                resultTags += tags[i];
+            else
+                resultTags += ' #';
+
+        return '#' + resultTags;
+    }
+
     render() {
         return <div className="ArtworkPage__wrapper">
 
@@ -74,13 +89,15 @@ export default class ArtworkPage extends React.Component{
                 <div className="ArtworkPage__assessment_container">
                     <h2 className="ArtworkPage__assessment_header">{this.props.artwork.name}</h2>
                     <p className="ArtworkPage__assessment_description">{this.props.artwork.description}</p>
-
+                    <p className="ArtworkPage__assessment_tags">{this.getTags()}</p>
                     <div className="ArtworkPage__assessment_author">
-                        <Link to={`/profile/${this.props.artwork.authorId}`}
-                              onClick={this.props.closeArtwork.bind(this)}>
-                            <img src={`data:image/JPEG;base64,${this.props.artwork.authorAvatar}`}
-                                 alt="avatar" className="ArtworkPage__assessment_author_avatar"/>
-                        </Link>
+                        <div className="avatar_wrapper">
+                            <Link to={`/profile/${this.props.artwork.authorId}`}
+                                  onClick={this.props.closeArtwork.bind(this)}>
+                                <img src={`data:image/JPEG;base64,${this.props.artwork.authorAvatar}`}
+                                     alt="avatar" className="avatar"/>
+                            </Link>
+                        </div>
                          <div className="ArtworkPage__assessment_author_block">
                              <p className="ArtworkPage__assessment_author_name">
                                  <Link to={`/profile/${this.props.artwork.authorId}`}
@@ -121,8 +138,10 @@ export default class ArtworkPage extends React.Component{
 
                 <div className="ArtworkPage__comment_container">
                     {this.props.isAuth ? <div className="ArtworkPage__comment_input_wrapper">
-                        <img src={`data:image/JPEG;base64,${this.props.userAvatar}`}
-                              alt="avatar" className="ArtworkPage__comment_avatar"/>
+                        <div className="ArtworkPage__comment_avatar_wrapper avatar_wrapper">
+                            <img src={`data:image/JPEG;base64,${this.props.userAvatar}`}
+                                 alt="avatar" className="avatar"/>
+                        </div>
                         <div>
                             <textarea ref={input => this.commentInput = input} className="ArtworkPage__comment_input" placeholder="Что вы думаете об этой работе?"/>
                             <div className="button ArtworkPage__comment_btn" onClick={this.commentHandler.bind(this)}>Опубликовать комментарий</div>

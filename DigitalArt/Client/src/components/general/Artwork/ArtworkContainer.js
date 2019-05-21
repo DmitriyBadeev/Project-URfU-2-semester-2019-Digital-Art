@@ -16,6 +16,10 @@ class ArtworkContainer extends React.Component{
             index={this.props.index}
             deleteArtwork={this.props.deleteArtwork}
             isAuthUser={this.props.isAuthUser}
+            id={this.props.id}
+            authUserId={this.props.authUserId}
+            isProfile={this.props.isProfile}
+            authUser={this.props.authUser}
         />
     }
 }
@@ -23,6 +27,7 @@ class ArtworkContainer extends React.Component{
 const mapStateToProps = state => {
     return {
         openArtworkId: state.main.openArtworkId,
+        authUser: state.userInfo.authUser
     }
 };
 

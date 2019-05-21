@@ -3,7 +3,11 @@ import {
     GET_USER_INFO_UNSUCCESS,
     GET_USER_INFO_LOADING,
     GET_AUTH_USER_SUCCESS,
-    GET_AUTH_USER_UNSUCCESS
+    GET_AUTH_USER_UNSUCCESS,
+    GET_AUTH_USER_LOADING,
+    PUT_AUTH_USER_LOADING,
+    PUT_AUTH_USER_UNSUCCESS,
+    PUT_AUTH_USER_SUCCESS
 } from "./actions";
 
 const defaultState = {
@@ -12,10 +16,15 @@ const defaultState = {
     name: '',
     lastName: '',
     avatar: '',
+    dateOfBirthday: '',
+    status: '',
+    about: '',
+    country: '',
+    city: '',
     artworks: [],
     isLoading: false,
     authUser: {},
-    error: ''
+    massage: ''
 };
 
 export const userInfoReducer = (state = defaultState, action) => {
@@ -28,7 +37,12 @@ export const userInfoReducer = (state = defaultState, action) => {
                 name: action.payload.name,
                 lastName: action.payload.lastName,
                 avatar: action.payload.avatar,
+                dateOfBirthday: action.payload.dateOfBirthday,
+                status: action.payload.status,
+                about: action.payload.about,
                 artworks: action.payload.artworks,
+                country: action.payload.country,
+                city: action.payload.city,
                 isLoading: false
             };
 
@@ -47,15 +61,38 @@ export const userInfoReducer = (state = defaultState, action) => {
         case GET_AUTH_USER_SUCCESS:
             return {
                 ...state,
-                authUser: action.payload
+                authUser: action.payload,
+                isLoading: false
             };
 
         case GET_AUTH_USER_UNSUCCESS:
             return {
                 ...state,
-                error: action.payload
+                massage: action.payload,
+                isLoading: false
+            };
+        case GET_AUTH_USER_LOADING:
+            return {
+                ...state,
+                isLoading: true
+            };
+        case PUT_AUTH_USER_LOADING:
+            return {
+                ...state,
+                isLoading: true
+            };
+        case PUT_AUTH_USER_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                authUser: action.payload
+            };
+        case PUT_AUTH_USER_UNSUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                massage: action.payload
             }
-
     }
 
     return state;

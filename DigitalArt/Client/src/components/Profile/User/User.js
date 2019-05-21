@@ -1,8 +1,9 @@
 import React from 'react';
 
-import ButtonFnc from '../../general/Button/ButtonFnc'
 import './user.sass';
 import Loading from "../../general/Loading/Loading"
+import Link from "react-router-dom/es/Link";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class User extends React.Component{
 
@@ -41,18 +42,34 @@ export default class User extends React.Component{
                 />}
             </div>
 
-            <div>
-                <h2>{`${this.props.name} ${this.props.lastName}`}</h2>
-                <p>{this.props.email}</p>
+            <div className="UserInfoWrapper">
+                <h2 className="User_name">{`${this.props.name} ${this.props.lastName}`}</h2>
+                {this.props.status? <p className="User_status">{this.props.status}</p>: null}
+
+                {this.props.country && this.props.city?
+                    <p className="User_location"><FontAwesomeIcon icon="map-marker-alt" /> {`${this.props.country}, ${this.props.city}`}</p>
+                    : this.props.country? <p className="User_location">{this.props.country}</p>
+                        : this.props.country? <p className="User_location">{this.props.city}</p>
+                            : null}
+
+
+                <div className="button User_subscribe">Подписаться <span>165</span></div>
+
+                {this.props.about? <p className="User_about"><strong>Обо мне:</strong> {this.props.about}</p>: null}
+
+                {new Date(this.props.dateOfBirthday).getFullYear() !== 1 && this.props.dateOfBirthday?
+                    <p className="User_date"><strong>Дата рождения:</strong> {new Date(this.props.dateOfBirthday).toLocaleString("ru",
+                        {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        })}</p>: null}
             </div>
 
-
-            <ButtonFnc text="Сменить аватарку" function={this.handleChange.bind(this)} id="userButton" className="button"/>
-
-            <div id="User__selectImg">
-                <input className="input" type="file" onChange={this.handleFile.bind(this)}/> <br/>
-                <button onClick={this.handleSave.bind(this)} className="button">Сохранить</button>
-            </div>
+            {this.props.id === this.props.authUserId?
+                <p className="UserSetting">
+                    <Link to="/setting"><FontAwesomeIcon icon="cog" /> Редактировать профиль</Link>
+                </p>: null}
         </div>
     }
 }

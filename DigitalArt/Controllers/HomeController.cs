@@ -24,9 +24,9 @@ namespace DigitalArt.Controllers
 
         // GET: api/Home
         [HttpGet]
-        public async Task<IActionResult> GetArtworks()
+        public async Task<IActionResult> GetArtworks([FromQuery] string sortParams)
         {
-            var arts = _context.Artworks
+            var arts = await _context.Artworks
                 .Include(w => w.Author)
                 .Include(w => w.Likes)
                 .Include(w => w.Comments)
@@ -41,11 +41,28 @@ namespace DigitalArt.Controllers
                     countLikes = a.Likes.Count,
                     countComments = a.Comments.Count,
                     countViews = a.CountViews,
-                    tags = a.Tags.Select(t => t.TagName).ToList(),
+                    tags = a.Tags,
                     art = a.Art
-                });
+                }).ToListAsync();
 
-            return Ok(arts);
+            var sortedArts = arts;
+            switch (sortParams)
+            {
+                case "Самые популярные":
+                    sortedArts = arts.OrderByDescending(art => art.countLikes).ToList();
+                    break;
+                case "Самые новые":
+                    sortedArts =  arts.OrderByDescending(art => art.date).ToList();
+                    break;
+                case "Самые обсуждаемые":
+                    sortedArts = arts.OrderByDescending(art => art.countComments).ToList();
+                    break;
+                case "Самые просматриваемые":
+                    sortedArts = arts.OrderByDescending(art => art.countViews).ToList();
+                    break;
+            }
+
+            return Ok(sortedArts);
         }
 
         // GET: api/Home/5
@@ -84,7 +101,7 @@ namespace DigitalArt.Controllers
                             comment = c.CommentString,
                             date = c.DateOfPublication
                         }),
-                    tags = a.Tags.Select(t => t.TagName).ToList(),
+                    tags = a.Tags,
                     art = a.Art
                 }).FirstOrDefault();
 
@@ -142,14 +159,15 @@ namespace DigitalArt.Controllers
                 return BadRequest(ModelState);
             }
             
-            var author = _context.Users.FirstOrDefaultAsync(u => u.Email == artworkData.Author);
+            var author = await _context.Users.FindAsync(artworkData.IdAuthor);
 
             var artwork = new Artwork
             {
                 Name = artworkData.Name,
-                Author = author.Result,
+                Author = author,
                 DateOfPublication = DateTime.Now,
-                Description = artworkData.Description
+                Description = artworkData.Description,
+                Tags = artworkData.Tags
             };
 
             if (artworkData.File != null)
@@ -199,7 +217,7 @@ namespace DigitalArt.Controllers
     {
         public string Name { get; set; }
 
-        public string Author { get; set; }
+        public int IdAuthor { get; set; }
 
         public IFormFile File { get; set; }
 

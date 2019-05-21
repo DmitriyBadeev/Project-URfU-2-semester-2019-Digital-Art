@@ -25,7 +25,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps  = dispatch => {
     return {
-        getArtworks: () => dispatch(getArtworks())
+        getArtworks: (sortParams) => dispatch(getArtworks(sortParams))
     }
 };
 

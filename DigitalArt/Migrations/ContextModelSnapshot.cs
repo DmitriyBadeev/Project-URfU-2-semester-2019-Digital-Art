@@ -37,6 +37,8 @@ namespace DigitalArt.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("Tags");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
@@ -86,23 +88,6 @@ namespace DigitalArt.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("DigitalArt.Models.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ArtworkId");
-
-                    b.Property<string>("TagName");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArtworkId");
-
-                    b.ToTable("Tags");
-                });
-
             modelBuilder.Entity("DigitalArt.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -112,6 +97,10 @@ namespace DigitalArt.Migrations
                     b.Property<string>("About");
 
                     b.Property<byte[]>("Avatar");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
 
                     b.Property<DateTime>("DateOfBirthDay");
 
@@ -159,13 +148,6 @@ namespace DigitalArt.Migrations
                     b.HasOne("DigitalArt.Models.User", "LikedUser")
                         .WithMany()
                         .HasForeignKey("LikedUserId");
-                });
-
-            modelBuilder.Entity("DigitalArt.Models.Tag", b =>
-                {
-                    b.HasOne("DigitalArt.Models.Artwork", "Artwork")
-                        .WithMany("Tags")
-                        .HasForeignKey("ArtworkId");
                 });
 #pragma warning restore 612, 618
         }

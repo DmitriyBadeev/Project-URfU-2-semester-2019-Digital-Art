@@ -5,14 +5,13 @@ import './profile.sass';
 import Artwork from "../general/Artwork/ArtworkContainer";
 import Masonry from 'react-masonry-component';
 import ButtonLink from "../general/Button/ButtonLink"
-import Button from "../general/Button/ButtonFnc";
 import Loading from "../general/Loading/Loading";
-
+import Filter from "../general/Filter/Filter";
 
 export default class ProfilePage extends React.Component {
 
     componentDidMount() {
-        this.props.getUserInfo(this.props.routeId);
+        this.props.getUserInfo(this.props.routeId, "Самые новые");
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,11 +25,6 @@ export default class ProfilePage extends React.Component {
         const reader = new FileReader();
         reader.onloadend = () => avatar.src = reader.result;
         photo? reader.readAsDataURL(photo): avatar.src = "";
-    }
-
-    handleSave() {
-        const file = this.fileInput.files[0];
-        console.log(file);
     }
 
     countLike() {
@@ -61,6 +55,13 @@ export default class ProfilePage extends React.Component {
     }
 
     render() {
+        const sortButtons = [
+            "Самые новые",
+            "Самые популярные",
+            "Самые обсуждаемые",
+            "Самые просматриваемые"
+        ];
+
         return <div className="Profile__container">
             <div className="Profile__userInfo">
                 <User
@@ -69,6 +70,13 @@ export default class ProfilePage extends React.Component {
                     email={this.props.email}
                     name={this.props.name}
                     lastName={this.props.lastName}
+                    id={this.props.id}
+                    authUserId={this.props.authUserId}
+                    dateOfBirthday={this.props.dateOfBirthday}
+                    status={this.props.status}
+                    about={this.props.about}
+                    country={this.props.country}
+                    city={this.props.city}
                 />
 
                 <div className="Profile__artsInfo">
@@ -78,22 +86,21 @@ export default class ProfilePage extends React.Component {
                     <p className="Profile__info">Количество комментариев: <strong>{this.countComment()}</strong></p>
                     <p className="Profile__info">Количество просмотров: <strong>{this.countView()}</strong></p>
                 </div>
-                <ButtonLink className="Profile__addArt button" link="/add-artwork" text="Добавить работу"/>
+                {this.props.id === this.props.authUserId?
+                    <ButtonLink className="Profile__addArt button" link="/add-artwork" text="Добавить работу"/>: null}
             </div>
             
             <div className="Profile__usersArtworks">
-                <div className="Profile__filter">
-                    <Button className="Profile__btn smallButton smallButton__active" text="Самые новые"/>
-                    <Button className="Profile__btn smallButton" text="Самые популярные"/>
-                    <Button className="Profile__btn smallButton" text="Самые обсуждаемые"/>
-                </div>
+                <Filter buttons={sortButtons} getUserInfo={this.props.getUserInfo} id={this.props.id}/>
                 <Masonry>
                     {this.props.isLoadingInfo? <Loading />: this.props.artworks.map((art, index) =>
                             <Artwork key={index}
-                                    art={art}
-                                    index={index}
-                                    deleteArtwork={this.props.deleteArtwork}
-                                    isAuthUser={true}
+                                     art={art}
+                                     index={index}
+                                     deleteArtwork={this.props.deleteArtwork}
+                                     isProfile={true}
+                                     id={this.props.id}
+                                     authUserId={this.props.authUserId}
                                 />
                     )}
                 </Masonry>

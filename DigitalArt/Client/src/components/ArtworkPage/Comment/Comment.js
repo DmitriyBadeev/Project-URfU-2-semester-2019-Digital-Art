@@ -47,7 +47,9 @@ export default class Comment extends React.Component {
         return <div className="Comment__container">
             <div className="Comment__author">
                 <Link to={`/profile/${this.props.authorId}`} onClick={this.props.closeArtwork.bind(this)}>
-                    <img src={`data:image/JPEG;base64,${this.props.authorAvatar}`} alt="avatar" className="Comment__author_avatar" />
+                    <div className="avatar_wrapper">
+                        <img src={`data:image/JPEG;base64,${this.props.authorAvatar}`} alt="avatar" className="avatar" />
+                    </div>
                 </Link>
             </div>
             <div className="Comment__wrapper">

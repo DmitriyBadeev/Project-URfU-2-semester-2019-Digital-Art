@@ -14,6 +14,7 @@ class AddArtworkPageContainer extends React.Component {
             isRedirect={this.props.isRedirect}
             isRedirected={this.props.isRedirected}
             email={this.props.email}
+            idAuthUser={this.props.idAuthUser}
         />
     }
 }
@@ -22,7 +23,8 @@ const mapStateToProps = state => {
     return {
         massage: state.addArtwork.massage,
         isRedirect: state.addArtwork.isRedirect,
-        email: state.userInfo.email
+        email: state.userInfo.authUser.email,
+        idAuthUser: state.userInfo.authUser.id
     }
 };
 

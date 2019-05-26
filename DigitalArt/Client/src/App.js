@@ -3,6 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+import { getArtworksElse } from './store/Main/actions';
 
 import rootReducer from './store/rootReducer';
 
@@ -14,6 +15,28 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUser, faDiceD6, faThumbsUp, faCommentAlt, faEye, faCog, faFileDownload, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faUser, faDiceD6, faThumbsUp, faCommentAlt, faEye, faCog, faFileDownload, faMapMarkerAlt);
+
+window.onscroll = () => {
+    if (location.href === 'http://localhost:8080/') {
+        let scrolled = window.pageYOffset || document.documentElement.scrollTop;
+        let scrollHeight = document.documentElement.offsetHeight;
+
+        let state = store.getState();
+        const sortParams = state.main.sortParams;
+        const loadedArts = state.main.loadedArts;
+        const isLoading = state.main.isLoadingMain || state.main.isLoadingElse;
+        const isEnd = state.main.isLastLoad;
+
+
+        if (scrolled > scrollHeight - 1400 && !isLoading && !isEnd) {
+            store.dispatch(getArtworksElse(sortParams, loadedArts));
+        }
+    }
+
+    if (location.href.startsWith('http://localhost:8080/profile')) {
+
+    }
+};
 
 const App = ({ children }) => (
      <Provider store={store}>

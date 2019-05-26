@@ -4,6 +4,9 @@ import {
     GET_ARTWORKS_LOADING,
     OPEN_ARTWORK_PAGE,
     CLOSE_ARTWORK_PAGE,
+    GET_ARTWORKS_ELSE_LOADING,
+    GET_ARTWORKS_ELSE_UNSUCCESS,
+    GET_ARTWORKS_ELSE_SUCCESS
 } from './actions';
 
 const defaultState = {
@@ -13,6 +16,10 @@ const defaultState = {
     isLoadingArt: false,
     isOpenArtwork: false,
     openArtworkId: 0,
+    isLoadingElse: false,
+    loadedArts: 0,
+    isLastLoad: false,
+    sortParams: ""
 };
 
 export const mainReducer = (state = defaultState, action) => {
@@ -20,8 +27,11 @@ export const mainReducer = (state = defaultState, action) => {
         case GET_ARTWORKS_SUCCESS:
             return {
                 ...state,
-                artworks: action.payload,
-                isLoadingMain: false
+                artworks: action.payload.arts,
+                isLoadingMain: false,
+                isLastLoad: false,
+                loadedArts: 15,
+                sortParams: action.payload.sort
             };
         case GET_ARTWORKS_UNSUCCESS:
             return {
@@ -47,6 +57,32 @@ export const mainReducer = (state = defaultState, action) => {
                 ...state,
                 isOpenArtwork: false,
                 openArtworkId: 0
+            };
+
+        case GET_ARTWORKS_ELSE_SUCCESS:
+            console.log(action.payload);
+            return {
+                ...state,
+                isLoadingElse: false,
+                loadedArts: action.payload.loadedArts,
+                isLastLoad: action.payload.isLast,
+                artworks: [
+                    ...state.artworks,
+                    ...action.payload.arts
+                ]
+            };
+
+        case GET_ARTWORKS_ELSE_LOADING:
+            return {
+                ...state,
+                isLoadingElse: true
+            };
+
+        case GET_ARTWORKS_ELSE_UNSUCCESS:
+            return {
+                ...state,
+                isLoadingElse: false,
+                massage: "Данные не были получены. Произошла ощибка :( " + action.payload
             };
     }
 

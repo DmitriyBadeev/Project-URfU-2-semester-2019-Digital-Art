@@ -7,7 +7,8 @@ import {
     GET_AUTH_USER_LOADING,
     PUT_AUTH_USER_LOADING,
     PUT_AUTH_USER_UNSUCCESS,
-    PUT_AUTH_USER_SUCCESS
+    PUT_AUTH_USER_SUCCESS,
+    REDIRECTED
 } from "./actions";
 
 const defaultState = {
@@ -24,7 +25,8 @@ const defaultState = {
     artworks: [],
     isLoading: false,
     authUser: {},
-    massage: ''
+    massage: '',
+    isRedirect: false
 };
 
 export const userInfoReducer = (state = defaultState, action) => {
@@ -85,13 +87,19 @@ export const userInfoReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                authUser: action.payload
+                authUser: action.payload,
+                isRedirect: true
             };
         case PUT_AUTH_USER_UNSUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 massage: action.payload
+            };
+        case REDIRECTED:
+            return {
+                ...state,
+                isRedirect: false
             }
     }
 

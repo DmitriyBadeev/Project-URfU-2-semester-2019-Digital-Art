@@ -13,6 +13,8 @@ export const PUT_AUTH_USER_SUCCESS = 'PUT_AUTH_USER_SUCCESS';
 export const PUT_AUTH_USER_UNSUCCESS = 'PUT_AUTH_USER_UNSUCCESS';
 export const PUT_AUTH_USER_LOADING = 'PUT_AUTH_USER_LOADING';
 
+export const REDIRECTED = 'REDIRECTED';
+
 export const getUserInfoSuccess = (user) => {
     return {
         type: GET_USER_INFO_SUCCESS,
@@ -63,6 +65,12 @@ const options = (id, sortParams) => {
             sortParams: sortParams
         }
     };
+};
+
+export const redirected = () => {
+    return {
+        type: REDIRECTED
+    }
 };
 
 export const getUserInfo = (id, sortParams) => {

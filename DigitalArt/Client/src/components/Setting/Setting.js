@@ -5,6 +5,7 @@ import Loading from '../general/Loading/Loading';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import Dropzone from '../general/Dropzone/Dropzone'
+import {Redirect} from "react-router-dom";
 
 export default class Setting extends React.Component {
     constructor(props) {
@@ -39,8 +40,6 @@ export default class Setting extends React.Component {
             return
         }
 
-        console.log(this.state.avatar);
-
         formData.append("Country", this.countryInput.value);
         formData.append("City", this.cityInput.value);
         formData.append("Avatar", this.state.avatar);
@@ -54,7 +53,6 @@ export default class Setting extends React.Component {
 
     getCurrentDateOfBirthday() {
         let currentDate = new Date(this.props.authUser.dateOfBirthday);
-
 
         return currentDate.getFullYear() + '-' + ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + currentDate.getDate()).slice(-2);
     }
@@ -92,6 +90,14 @@ export default class Setting extends React.Component {
     }
 
     render() {
+
+        const {isRedirect} = this.props;
+
+        if (isRedirect) {
+            this.props.redirected();
+            return <Redirect to={`/profile/${this.props.authUser.id}`} />
+        }
+
         return <div className="Setting__container">
             <h1 className="Setting__header">Редактирование профиля</h1>
             <div className="Setting__form">

@@ -11,7 +11,22 @@ export default class AddArtworkPage extends React.Component {
 
         this.state = {
             isLoadArt: false,
-            art: null
+            art: null,
+            tags: [
+                "3D",
+                "Иллюстрация",
+                "Архитектура",
+                "Анимационный дизайн",
+                "Web-дизайн",
+                "Цифровая живопись",
+                "Фрактальная графика",
+                "Типографика",
+                "Гейм-арт",
+                "Пиксель-арт",
+                "Портрет",
+                "Рисование",
+                "Фан-арт"
+            ]
         }
     }
 
@@ -22,7 +37,7 @@ export default class AddArtworkPage extends React.Component {
     getSelectedTags() {
         let selectedTags = [];
 
-        for (let i = 1; i <= 11; i++) {
+        for (let i = 0; i <= this.state.tags.length - 1; i++) {
             let tag = document.getElementById(`Add_${i}`);
             if (tag.checked)
                 selectedTags.push(tag.value);
@@ -36,7 +51,6 @@ export default class AddArtworkPage extends React.Component {
         const file = this.state.art;
         const formData = new FormData();
         const tags = this.getSelectedTags();
-        console.log(tags);
 
         formData.append("Name", this.nameInput.value);
         formData.append("IdAuthor", this.props.idAuthUser);
@@ -71,7 +85,6 @@ export default class AddArtworkPage extends React.Component {
         }
 
         return <div className="AddArtPage_container">
-
             <h1 className="AddArtPage_header">Добавление работы</h1>
             <div className="AddArtPage_wrapper">
                 <div className="AddArtPage_fieldsWrapper">
@@ -87,65 +100,16 @@ export default class AddArtworkPage extends React.Component {
 
                     <h5 className="AddArtPage_headerTags">Выберете подходящие тэги, описывающие вашу работу</h5>
                     <div className="AddArtPage_selectTags">
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_1" value="3D"/>
-                            <label htmlFor="Add_1" className="AddArtPage_label">3D</label>
-                        </div>
-
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_2" value="Иллюстрация"/>
-                            <label htmlFor="Add_2" className="AddArtPage_label">Иллюстрация</label>
-                        </div>
-
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_3" value="Архитектура"/>
-                            <label htmlFor="Add_3" className="AddArtPage_label">Архитектура</label>
-                        </div>
-
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_4" value="Анимационный дизайн"/>
-                            <label htmlFor="Add_4" className="AddArtPage_label">Анимационный дизайн</label>
-                        </div>
-
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_5" value="Web-дизайн"/>
-                            <label htmlFor="Add_5" className="AddArtPage_label">Web-дизайн</label>
-                        </div>
-
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_6" value="Цифровая живопись"/>
-                            <label htmlFor="Add_6" className="AddArtPage_label">Цифровая живопись</label>
-                        </div>
-
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_7" value="Фрактальная графика"/>
-                            <label htmlFor="Add_7" className="AddArtPage_label">Фрактальная графика</label>
-                        </div>
-
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_8" value="Типографика"/>
-                            <label htmlFor="Add_8" className="AddArtPage_label">Типографика</label>
-                        </div>
-
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_9" value="Гейм-арт"/>
-                            <label htmlFor="Add_9" className="AddArtPage_label">Гейм-арт</label>
-                        </div>
-
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_10" value="Пиксель-арт"/>
-                            <label htmlFor="Add_10" className="AddArtPage_label">Пиксель-арт</label>
-                        </div>
-
-                        <div className="AddArtPage_check">
-                            <input type="checkbox" className="AddArtPage_tag" id="Add_11" value="Портрет"/>
-                            <label htmlFor="Add_11" className="AddArtPage_label">Портрет</label>
-                        </div>
+                        {this.state.tags.map((tag, index) => (
+                            <div className="AddArtPage_check" key={index}>
+                                <input type="checkbox" className="AddArtPage_tag" id={`Add_${index}`} value={`${tag}`}/>
+                                <label htmlFor={`Add_${index}`} className="AddArtPage_label">{tag}</label>
+                            </div>
+                        ))}
                     </div>
                     <div className="Add_btnWrapper">
                         <button className="button Add_btn" onClick={this.clickHandler.bind(this)}>Добавить работу</button>
                     </div>
-
                 </div>
 
                 <div className="AddArtPage_artWrapper">

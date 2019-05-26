@@ -43,26 +43,97 @@ namespace DigitalArt.Controllers
                     countViews = a.CountViews,
                     tags = a.Tags,
                     art = a.Art
-                }).ToListAsync();
+                })
+                .ToListAsync();
 
             var sortedArts = arts;
             switch (sortParams)
             {
                 case "Самые популярные":
-                    sortedArts = arts.OrderByDescending(art => art.countLikes).ToList();
+                    sortedArts = arts.OrderByDescending(art => art.countLikes).Take(15).ToList();
                     break;
                 case "Самые новые":
-                    sortedArts =  arts.OrderByDescending(art => art.date).ToList();
+                    sortedArts =  arts.OrderByDescending(art => art.date).Take(15).ToList();
                     break;
                 case "Самые обсуждаемые":
-                    sortedArts = arts.OrderByDescending(art => art.countComments).ToList();
+                    sortedArts = arts.OrderByDescending(art => art.countComments).Take(15).ToList();
                     break;
                 case "Самые просматриваемые":
-                    sortedArts = arts.OrderByDescending(art => art.countViews).ToList();
+                    sortedArts = arts.OrderByDescending(art => art.countViews).Take(15).ToList();
                     break;
             }
 
-            return Ok(sortedArts);
+            var response = new
+            {
+                arts = sortedArts,
+                sort = sortParams
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet("/api/home/get-else")]
+        public async Task<IActionResult> GetArtworksElse([FromQuery] string sortParams, int countLoaded)
+        {
+            var arts = await _context.Artworks
+                .Include(w => w.Author)
+                .Include(w => w.Likes)
+                .Include(w => w.Comments)
+                .Include(w => w.Tags)
+                .Select(a => new
+                {
+                    id = a.Id,
+                    name = a.Name,
+                    author = a.Author.Name + " " + a.Author.LastName,
+                    description = a.Description,
+                    date = a.DateOfPublication,
+                    countLikes = a.Likes.Count,
+                    countComments = a.Comments.Count,
+                    countViews = a.CountViews,
+                    tags = a.Tags,
+                    art = a.Art
+                })
+                .ToListAsync();
+
+            var sortedArts = arts;
+            switch (sortParams)
+            {
+                case "Самые популярные":
+                    sortedArts = arts.OrderByDescending(art => art.countLikes)
+                        .Skip(countLoaded)
+                        .Take(15)
+                        .ToList();
+                    break;
+                case "Самые новые":
+                    sortedArts = arts.OrderByDescending(art => art.date)
+                        .Skip(countLoaded)
+                        .Take(15)
+                        .ToList();
+                    break;
+                case "Самые обсуждаемые":
+                    sortedArts = arts.OrderByDescending(art => art.countComments)
+                        .Skip(countLoaded)
+                        .Take(15)
+                        .ToList();
+                    break;
+                case "Самые просматриваемые":
+                    sortedArts = arts.OrderByDescending(art => art.countViews)
+                        .Skip(countLoaded)
+                        .Take(15)
+                        .ToList();
+                    break;
+            }
+
+            var isEnd = sortedArts.Count + countLoaded == _context.Artworks.Count();  
+
+            var response = new
+            {
+                arts = sortedArts,
+                isLast = isEnd,
+                loadedArts = countLoaded + sortedArts.Count
+            };
+
+            return Ok(response);
         }
 
         // GET: api/Home/5

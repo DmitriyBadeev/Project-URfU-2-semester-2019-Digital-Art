@@ -60,7 +60,6 @@ namespace DigitalArt.Controllers
                 return BadRequest(ModelState);
             }
 
-
             var user = GetUser(data.Login, data.Password);
             if (user == null)
             {

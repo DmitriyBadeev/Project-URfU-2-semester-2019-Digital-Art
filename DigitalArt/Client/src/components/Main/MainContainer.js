@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Main from './Main'
-import {getArtworks, getArtworksElse} from "../../store/Main/actions";
+import {getArtworks, searchArtwork} from "../../store/Main/actions";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
@@ -13,6 +13,7 @@ class MainContainer extends React.Component {
             getArtworks={this.props.getArtworks}
             isLoadingArts={this.props.isLoadingArts}
             isLoadingElse={this.props.isLoadingElse}
+            searchArts={this.props.searchArts}
         />
     }
 }
@@ -28,6 +29,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps  = dispatch => {
     return {
         getArtworks: (sortParams) => dispatch(getArtworks(sortParams)),
+        searchArts: (data) => dispatch(searchArtwork(data))
     }
 };
 

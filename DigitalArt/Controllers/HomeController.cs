@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DigitalArt.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Razor.Language;
 
 namespace DigitalArt.Controllers
 {
@@ -132,6 +133,48 @@ namespace DigitalArt.Controllers
                 isLast = isEnd,
                 loadedArts = countLoaded + sortedArts.Count
             };
+
+            return Ok(response);
+        }
+
+        [HttpGet("/api/home/search")]
+        public async Task<IActionResult> SearchArtwork([FromQuery] string data)
+        {
+            var arts = await _context.Artworks
+                .Include(w => w.Author)
+                .Include(w => w.Likes)
+                .Include(w => w.Comments)
+                .Include(w => w.Tags)
+                .Select(a => new
+                {
+                    id = a.Id,
+                    name = a.Name,
+                    author = a.Author.Name + " " + a.Author.LastName,
+                    description = a.Description,
+                    date = a.DateOfPublication,
+                    countLikes = a.Likes.Count,
+                    countComments = a.Comments.Count,
+                    countViews = a.CountViews,
+                    tags = a.Tags,
+                    art = a.Art,
+                    authorLastName = a.Author.LastName
+                })
+                .ToListAsync();
+
+            var response = arts.FindAll(a =>
+            {
+                var tags = a.tags;
+
+                if (tags != null)
+                    return a.name.Contains(data, StringComparison.OrdinalIgnoreCase) ||
+                           a.author.Contains(data, StringComparison.OrdinalIgnoreCase) ||
+                           a.authorLastName.Contains(data, StringComparison.OrdinalIgnoreCase) ||
+                           a.tags.Contains(data, StringComparison.OrdinalIgnoreCase);
+
+                return a.name.Contains(data, StringComparison.OrdinalIgnoreCase) ||
+                       a.author.Contains(data, StringComparison.OrdinalIgnoreCase) ||
+                       a.authorLastName.Contains(data, StringComparison.OrdinalIgnoreCase);
+            });
 
             return Ok(response);
         }

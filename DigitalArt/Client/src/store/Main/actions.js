@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MAIN_PATH, GET_ARTS_URL, GET_ARTS_ELSE_URL } from "../../Config";
+import {MAIN_PATH, GET_ARTS_URL, GET_ARTS_ELSE_URL, SEARCH_ARTS_URL} from "../../Config";
 
 export const GET_ARTWORKS_SUCCESS = 'GET_ARTWORKS_SUCCESS';
 export const GET_ARTWORKS_UNSUCCESS = 'GET_ARTWORKS_UNSUCCESS';
@@ -14,6 +14,9 @@ export const UPDATE_COUNT_COMMENT = 'UPDATE_COUNT_COMMENT';
 export const GET_ARTWORKS_ELSE_SUCCESS = 'GET_ARTWORKS_ELSE_SUCCESS';
 export const GET_ARTWORKS_ELSE_UNSUCCESS = 'GET_ARTWORKS_ELSE_UNSUCCESS';
 export const GET_ARTWORKS_ELSE_LOADING = 'GET_ARTWORKS_ELSE_LOADING';
+
+export const SEARCH_ARTS_SUCCESS = 'SEARCH_ARTS_SUCCESS';
+export const SEARCH_ARTS_UNSUCCESS = 'SEARCH_ARTS_UNSUCCESS';
 
 const getArtworksLoading = () => {
     return {
@@ -102,6 +105,39 @@ export const getArtworksElse = (sortParams, countLoaded) => {
                 dispatch(getArtworksElseSuccess(res.data));
             })
             .catch(error => dispatch(getArtworksElseUnsuccess(error)))
+    }
+};
+
+export const searchArtwork = (data) => {
+
+    const options = {
+        params: {
+            data: data,
+        }
+    };
+
+    return dispatch => {
+        dispatch(getArtworksLoading());
+        console.log(data);
+        axios.get(MAIN_PATH+SEARCH_ARTS_URL, options)
+            .then(res => {
+                dispatch(searchArtworkSuccess(res.data));
+            })
+            .catch(error => dispatch(searchArtworkUnsuccess(error)));
+    }
+};
+
+const searchArtworkSuccess = (arts) => {
+    return {
+        type: SEARCH_ARTS_SUCCESS,
+        payload: arts
+    }
+};
+
+const searchArtworkUnsuccess = (error) => {
+    return {
+        type: SEARCH_ARTS_UNSUCCESS,
+        payload: error
     }
 };
 

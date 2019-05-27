@@ -6,7 +6,9 @@ import {
     CLOSE_ARTWORK_PAGE,
     GET_ARTWORKS_ELSE_LOADING,
     GET_ARTWORKS_ELSE_UNSUCCESS,
-    GET_ARTWORKS_ELSE_SUCCESS
+    GET_ARTWORKS_ELSE_SUCCESS,
+    SEARCH_ARTS_SUCCESS,
+    SEARCH_ARTS_UNSUCCESS
 } from './actions';
 
 const defaultState = {
@@ -84,6 +86,22 @@ export const mainReducer = (state = defaultState, action) => {
                 isLoadingElse: false,
                 massage: "Данные не были получены. Произошла ощибка :( " + action.payload
             };
+
+        case SEARCH_ARTS_SUCCESS:
+            return {
+                ...state,
+                artworks: action.payload,
+                isLoadingMain: false,
+                isLastLoad: true,
+                loadedArts: action.payload.length
+            };
+
+        case SEARCH_ARTS_UNSUCCESS:
+            return {
+                ...state,
+                isLoadingMain: false,
+                massage: "Данные не были получены. Произошла ощибка :( " + action.payload
+            }
     }
 
     return state;

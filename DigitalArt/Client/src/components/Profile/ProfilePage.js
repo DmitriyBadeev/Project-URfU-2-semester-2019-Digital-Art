@@ -7,16 +7,23 @@ import Masonry from 'react-masonry-component';
 import ButtonLink from "../general/Button/ButtonLink"
 import Loading from "../general/Loading/Loading";
 import Filter from "../general/Filter/Filter";
+import Link from "react-router-dom/es/Link";
 
 export default class ProfilePage extends React.Component {
 
     componentDidMount() {
         this.props.getUserInfo(this.props.routeId, "Самые новые");
+
+        setTimeout(() => {
+            this.props.getSubscribers(this.props.routeId, this.props.authUserId);
+        }, 1000)
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.routeId !== nextProps.routeId)
+        if (this.props.routeId !== nextProps.routeId) {
             this.props.getUserInfo(nextProps.routeId);
+            this.props.getSubscribers(this.props.routeId, this.props.authUserId);
+        }
     }
 
     handleFile(e) {
@@ -77,6 +84,11 @@ export default class ProfilePage extends React.Component {
                     about={this.props.about}
                     country={this.props.country}
                     city={this.props.city}
+                    countSubs={this.props.countSubs}
+                    isLoadingSubs={this.props.isLoadingSubs}
+                    postSubscribe={this.props.postSubscribe}
+                    isSubscribe={this.props.isSubscribe}
+                    deleteSubscribe={this.props.deleteSubscribe}
                 />
 
                 <div className="Profile__artsInfo">
@@ -104,6 +116,8 @@ export default class ProfilePage extends React.Component {
                                 />
                     )}
                 </Masonry>
+                {this.props.artworks.length === 0 && !this.props.isLoadingInfo?
+                    <Link to="/add-artwork"><div className="Profile__massage">Добавьте свою первую работу!</div></Link> : null}
             </div>
         </div>
 

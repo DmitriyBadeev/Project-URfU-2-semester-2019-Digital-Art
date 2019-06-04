@@ -9,7 +9,13 @@ import Link from "react-router-dom/es/Link";
 export default class ArtworkPage extends React.Component{
 
     componentDidMount() {
-        this.props.getArtwork(this.props.openArtworkId || this.props.routeId);
+        this.props.getArtwork(this.props.openArtworkId || this.props.routeId, this.props.userId);
+
+        setTimeout(() => {
+            this.props.getSubscribers(this.props.artwork.authorId, this.props.userId);
+        }, 1000);
+
+
         this.props.postView(this.props.openArtworkId || this.props.routeId);
         document.body.style.overflow = "hidden";
 
@@ -79,6 +85,20 @@ export default class ArtworkPage extends React.Component{
         return '#' + resultTags;
     }
 
+    handleSub () {
+        const authorId = this.props.artwork.authorId;
+        const userId = this.props.userId;
+
+        this.props.postSubscribe(authorId, userId);
+    }
+
+    handleUnsub() {
+        const authorId = this.props.artwork.authorId;
+        const userId = this.props.userId;
+
+        this.props.deleteSubscribe(authorId, userId);
+    }
+
     render() {
         return <div className="ArtworkPage__wrapper">
 
@@ -105,9 +125,17 @@ export default class ArtworkPage extends React.Component{
                                      {this.props.artwork.author}
                                  </Link>
                              </p>
-                            <div className="ArtworkPage__assessment_author_sub">Подписаться</div>
+                             {this.props.artwork.authorId === this.props.userId ?
+                                 <div className="ArtworkPage__assessment_author_sub_active">Это вы</div>
+                                 :
+                                 this.props.isSubscribe ?
+                                 <div className="ArtworkPage__assessment_author_sub_active" onClick={this.handleUnsub.bind(this)}>Отписаться</div>
+                                 :
+                                 <div className="ArtworkPage__assessment_author_sub" onClick={this.handleSub.bind(this)}>Подписаться</div>
+                             }
                          </div>
                     </div>
+                    <div className="Sub_massage">{this.props.massageSub}</div>
                 </div>
                 <div className="ArtworkPage__like_container">
                     <div className="Artwork__like_wrapper">

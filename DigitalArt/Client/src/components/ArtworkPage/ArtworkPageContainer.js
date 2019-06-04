@@ -4,7 +4,8 @@ import ArtworkPage from "./ArtworkPage";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {deleteLike, getLike, getUserArtwork, postLike, postComment, postView} from "../../store/ArtworkPage/actions";
-import {closeArtworkPage, getArtworks} from "../../store/Main/actions";
+import {closeArtworkPage} from "../../store/Main/actions";
+import {deleteSubscribe, getSubscribers, postSubscribe} from "../../store/Profile/actions";
 
 class ArtworkPageContainer extends React.Component {
 
@@ -25,6 +26,11 @@ class ArtworkPageContainer extends React.Component {
             isAuth = {this.props.isAuth}
             userAvatar = {this.props.userAvatar}
             postView = {this.props.postView}
+            isSubscribe={this.props.isSubscribe}
+            postSubscribe={this.props.postSubscribe}
+            deleteSubscribe={this.props.deleteSubscribe}
+            getSubscribers={this.props.getSubscribers}
+            massageSub={this.props.massageSub}
         />
     }
 }
@@ -37,19 +43,24 @@ const mapStateToProps = state => {
         userId: state.userInfo.authUser.id,
         userAvatar: state.userInfo.authUser.avatar,
         massage: state.artworkPage.massage,
-        isAuth: state.authorization.isAuth
+        isAuth: state.authorization.isAuth,
+        isSubscribe: state.profile.isSubscribe,
+        massageSub: state.profile.massage
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         postLike: likeData => dispatch(postLike(likeData)),
-        getArtwork: id => dispatch(getUserArtwork(id)),
+        getArtwork: (id, idAuthUser) => dispatch(getUserArtwork(id, idAuthUser)),
         closeArtwork: () => dispatch(closeArtworkPage()),
         getLike: (userId, idArt) => dispatch(getLike(userId, idArt)),
         deleteLike: (userId, idArt) => dispatch(deleteLike(userId, idArt)),
         postComment: (comment) => dispatch(postComment(comment)),
-        postView: (idArt) => dispatch(postView(idArt))
+        postView: (idArt) => dispatch(postView(idArt)),
+        postSubscribe: (idAuthor, idUser) => dispatch(postSubscribe(idAuthor, idUser)),
+        deleteSubscribe: (idAuthor, idUser) => dispatch(deleteSubscribe(idAuthor, idUser)),
+        getSubscribers: (idAuthor, idAuthUser) => dispatch(getSubscribers(idAuthor, idAuthUser)),
     }
 };
 

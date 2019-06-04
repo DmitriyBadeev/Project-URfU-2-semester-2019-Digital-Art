@@ -51,11 +51,12 @@ const getArtworksUnsuccess = (error) => {
     }
 };
 
-export const getArtworks = (sortParams) => {
+export const getArtworks = (sortParams, id = 0) => {
 
     const options = {
         params: {
-            sortParams: sortParams
+            sortParams: sortParams,
+            id: id
         }
     };
 
@@ -89,12 +90,13 @@ const getArtworksElseLoading = () => {
     }
 };
 
-export const getArtworksElse = (sortParams, countLoaded) => {
+export const getArtworksElse = (sortParams, countLoaded, id) => {
 
     const options = {
         params: {
             sortParams: sortParams,
-            countLoaded: countLoaded
+            countLoaded: countLoaded,
+            id: id
         }
     };
 

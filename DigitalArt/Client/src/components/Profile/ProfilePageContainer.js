@@ -4,7 +4,7 @@ import ProfilePage from './ProfilePage';
 import { withRouter } from "react-router-dom";
 import {connect} from "react-redux";
 import { getUserInfo } from "../../store/Header/UserInfo/actions";
-import {deleteArtwork} from "../../store/Profile/actions";
+import {deleteArtwork, deleteSubscribe, getSubscribers, postSubscribe} from "../../store/Profile/actions";
 
 class ProfilePageContainer extends React.Component {
 
@@ -27,6 +27,12 @@ class ProfilePageContainer extends React.Component {
             about={this.props.about}
             country={this.props.country}
             city={this.props.city}
+            countSubs={this.props.countSubs}
+            isLoadingSubs={this.props.isLoadingSubs}
+            getSubscribers={this.props.getSubscribers}
+            postSubscribe={this.props.postSubscribe}
+            isSubscribe={this.props.isSubscribe}
+            deleteSubscribe={this.props.deleteSubscribe}
         />
     }
 }
@@ -47,13 +53,19 @@ const mapStateToProps = state => {
         about: state.userInfo.about,
         country: state.userInfo.country,
         city: state.userInfo.city,
+        countSubs: state.profile.countSubs,
+        isLoadingSubs: state.profile.isLoadingSubs,
+        isSubscribe: state.profile.isSubscribe
     }
 };
 
 const mapDispatchToProps = dispatch => {
         return {
             getUserInfo: (id, sortParams) => dispatch(getUserInfo(id, sortParams)),
-            deleteArtwork: (id) => dispatch(deleteArtwork(id))
+            deleteArtwork: (id) => dispatch(deleteArtwork(id)),
+            getSubscribers: (idAuthor, idAuthUser) => dispatch(getSubscribers(idAuthor, idAuthUser)),
+            postSubscribe: (idAuthor, idUser) => dispatch(postSubscribe(idAuthor, idUser)),
+            deleteSubscribe: (idAuthor, idUser) => dispatch(deleteSubscribe(idAuthor, idUser))
         }
 };
 

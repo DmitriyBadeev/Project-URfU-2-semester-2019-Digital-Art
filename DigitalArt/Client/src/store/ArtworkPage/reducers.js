@@ -19,7 +19,8 @@ const defaultState = {
     artwork: {
         isLikedArt: false
     },
-    massage: ""
+    massage: "",
+    isSubscribe: false
 };
 
 export const ArtworkPageReducer = (state = defaultState, action) => {
@@ -28,10 +29,11 @@ export const ArtworkPageReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 artwork: {
-                    ...action.payload,
+                    ...action.payload.artwork,
                     isLikedArt: state.artwork.isLikedArt
                 },
                 isLoadingArt: false,
+                isSubscribe: action.payload.isSubscribeAuthUser,
                 massage: ""
             };
 

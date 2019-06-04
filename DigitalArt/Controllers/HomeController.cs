@@ -25,18 +25,22 @@ namespace DigitalArt.Controllers
 
         // GET: api/Home
         [HttpGet]
-        public async Task<IActionResult> GetArtworks([FromQuery] string sortParams)
+        public async Task<IActionResult> GetArtworks([FromQuery] string sortParams, int id = 0)
         {
+            
+
             var arts = await _context.Artworks
                 .Include(w => w.Author)
                 .Include(w => w.Likes)
                 .Include(w => w.Comments)
                 .Include(w => w.Tags)
+                .Include(w => w.Author.Subscriptions)
                 .Select(a => new
                 {
                     id = a.Id,
                     name = a.Name,
                     author = a.Author.Name + " " + a.Author.LastName,
+                    authorId = a.Author.Id,
                     description = a.Description,
                     date = a.DateOfPublication,
                     countLikes = a.Likes.Count,
@@ -46,6 +50,15 @@ namespace DigitalArt.Controllers
                     art = a.Art
                 })
                 .ToListAsync();
+
+            List<int> subList;
+            if (id != 0)
+            {
+                subList = await _context.Subscriptions.Where(s => s.SubscriberId == id).Select(s => s.User.Id).ToListAsync();
+                sortParams = "Самые новые";
+
+                arts = arts.Where(a => subList.Contains(a.authorId)).ToList();
+            }
 
             var sortedArts = arts;
             switch (sortParams)
@@ -67,14 +80,14 @@ namespace DigitalArt.Controllers
             var response = new
             {
                 arts = sortedArts,
-                sort = sortParams
+                sort = id != 0? "Моя лента": sortParams
             };
 
             return Ok(response);
         }
 
         [HttpGet("/api/home/get-else")]
-        public async Task<IActionResult> GetArtworksElse([FromQuery] string sortParams, int countLoaded)
+        public async Task<IActionResult> GetArtworksElse([FromQuery] string sortParams, int countLoaded, int id = 0)
         {
             var arts = await _context.Artworks
                 .Include(w => w.Author)
@@ -86,6 +99,7 @@ namespace DigitalArt.Controllers
                     id = a.Id,
                     name = a.Name,
                     author = a.Author.Name + " " + a.Author.LastName,
+                    authorId = a.Author.Id,
                     description = a.Description,
                     date = a.DateOfPublication,
                     countLikes = a.Likes.Count,
@@ -95,6 +109,15 @@ namespace DigitalArt.Controllers
                     art = a.Art
                 })
                 .ToListAsync();
+
+            List<int> subList;
+            if (id != 0)
+            {
+                subList = await _context.Subscriptions.Where(s => s.SubscriberId == id).Select(s => s.User.Id).ToListAsync();
+                sortParams = "Самые новые";
+
+                arts = arts.Where(a => subList.Contains(a.authorId)).ToList();
+            }
 
             var sortedArts = arts;
             switch (sortParams)
@@ -125,7 +148,8 @@ namespace DigitalArt.Controllers
                     break;
             }
 
-            var isEnd = sortedArts.Count + countLoaded == _context.Artworks.Count();  
+            //var isEnd = sortedArts.Count + countLoaded == _context.Artworks.Count();  
+            var isEnd = sortedArts.Count < 15;  
 
             var response = new
             {
@@ -181,7 +205,7 @@ namespace DigitalArt.Controllers
 
         // GET: api/Home/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetArtwork([FromRoute] int id)
+        public async Task<IActionResult> GetArtwork([FromRoute] int id, [FromQuery] int idUser = 0)
         {
             if (!ModelState.IsValid)
             {
@@ -224,7 +248,16 @@ namespace DigitalArt.Controllers
                 return NotFound();
             }
 
-            return Ok(art);
+            var isSubscribe = _context.Subscriptions
+                .Any(s => s.User.Id == art.authorId && s.SubscriberId == idUser);
+
+            var response = new
+            {
+                artwork = art,
+                isSubscribeAuthUser = isSubscribe
+            };
+
+            return Ok(response);
         }
 
         // PUT: api/Home/5

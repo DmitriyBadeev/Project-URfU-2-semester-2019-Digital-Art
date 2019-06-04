@@ -13,11 +13,12 @@ const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUser, faDiceD6, faThumbsUp, faCommentAlt, faEye, faCog, faFileDownload, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
+import { PATH } from "./Config";
 
 library.add(faUser, faDiceD6, faThumbsUp, faCommentAlt, faEye, faCog, faFileDownload, faMapMarkerAlt);
 
 window.onscroll = () => {
-    if (location.href === 'http://localhost:8080/') {
+    if (location.href === PATH) {
         let scrolled = window.pageYOffset || document.documentElement.scrollTop;
         let scrollHeight = document.documentElement.offsetHeight;
 
@@ -26,10 +27,13 @@ window.onscroll = () => {
         const loadedArts = state.main.loadedArts;
         const isLoading = state.main.isLoadingMain || state.main.isLoadingElse;
         const isEnd = state.main.isLastLoad;
-
+        const authId = state.userInfo.authUser.id;
 
         if (scrolled > scrollHeight - 1400 && !isLoading && !isEnd) {
-            store.dispatch(getArtworksElse(sortParams, loadedArts));
+            if (authId && sortParams === "Моя лента")
+                store.dispatch(getArtworksElse(sortParams, loadedArts, authId));
+            else
+                store.dispatch(getArtworksElse(sortParams, loadedArts, 0));
         }
     }
 

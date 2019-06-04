@@ -188,10 +188,17 @@ export const getLike = (userId, idArt) => {
     }
 };
 
-export const getUserArtwork = id => {
+export const getUserArtwork = (id, authUser) => {
+
+    const options = {
+        params: {
+            idUser: authUser
+        }
+    };
+
     return dispatch => {
         dispatch(getArtworkLoading());
-        axios.get(MAIN_PATH+GET_ART_URL(id))
+        axios.get(MAIN_PATH+GET_ART_URL(id), options)
             .then(res => {
                 dispatch(getArtworkSuccess(res.data))
             })

@@ -32,7 +32,7 @@ export const mainReducer = (state = defaultState, action) => {
                 artworks: action.payload.arts,
                 isLoadingMain: false,
                 isLastLoad: false,
-                loadedArts: 15,
+                loadedArts: action.payload.arts.length,
                 sortParams: action.payload.sort
             };
         case GET_ARTWORKS_UNSUCCESS:

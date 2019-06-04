@@ -1,5 +1,9 @@
 
-export const MAIN_PATH = 'https://localhost:5001/api';
+const PORT = '44380';
+
+export const PATH = `https://localhost:${PORT}/`;
+
+export const MAIN_PATH = `https://localhost:${PORT}/api`;
 
 export const GET_ARTS_URL = '/home';
 
@@ -32,3 +36,11 @@ export const DELETE_LIKE_URL = '/likes';
 export const POST_COMMENT_URL = '/comments';
 
 export const POST_VIEW_URL = (idArt) => `/views/${idArt}`;
+
+export const GET_SUBS_URL = '/subscriptions';
+
+export const POST_SUB_URL = '/subscriptions';
+
+export const DELETE_SUB_URL = '/subscriptions';
+
+

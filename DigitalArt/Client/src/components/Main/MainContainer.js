@@ -14,6 +14,7 @@ class MainContainer extends React.Component {
             isLoadingArts={this.props.isLoadingArts}
             isLoadingElse={this.props.isLoadingElse}
             searchArts={this.props.searchArts}
+            authUser={this.props.authUser}
         />
     }
 }
@@ -22,13 +23,14 @@ const mapStateToProps = state => {
     return {
         artworks: state.main.artworks,
         isLoadingArts: state.main.isLoadingMain,
-        isLoadingElse: state.main.isLoadingElse
+        isLoadingElse: state.main.isLoadingElse,
+        authUser: state.userInfo.authUser
     }
 };
 
 const mapDispatchToProps  = dispatch => {
     return {
-        getArtworks: (sortParams) => dispatch(getArtworks(sortParams)),
+        getArtworks: (sortParams, id) => dispatch(getArtworks(sortParams, id)),
         searchArts: (data) => dispatch(searchArtwork(data))
     }
 };

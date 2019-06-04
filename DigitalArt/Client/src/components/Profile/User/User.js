@@ -7,29 +7,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class User extends React.Component{
 
-    handleFile(e) {
-        const photo = e.target.files[0];
+    handleSubClick() {
+        const author = this.props.id;
+        const user = this.props.authUserId;
 
-        const avatar = document.getElementById("avatar");
-
-        const reader = new FileReader();
-
-        reader.onloadend = () => avatar.src = reader.result;
-
-        photo? reader.readAsDataURL(photo): avatar.src = `data:image/JPEG;base64,${this.props.avatar}`;
+        this.props.postSubscribe(author, user);
     }
 
-    handleChange() {
-         const changeBlock = document.getElementById("User__selectImg");
+    handleUnsubClick() {
+        const author = this.props.id;
+        const user = this.props.authUserId;
 
-         if (changeBlock.style.display === "none")
-            changeBlock.style.display = "block";
-         else
-             changeBlock.style.display = "none"
-    }
-
-    handleSave() {
-
+        this.props.deleteSubscribe(author, user);
     }
 
     render() {
@@ -52,8 +41,15 @@ export default class User extends React.Component{
                         : this.props.country? <p className="User_location">{this.props.city}</p>
                             : null}
 
-
-                <div className="button User_subscribe">Подписаться <span>165</span></div>
+                {this.props.id === this.props.authUserId || !this.props.authUserId?
+                    <div className="button User_subscribe_active">Количество подписчиков <span>{this.props.countSubs}</span></div>
+                    :
+                    this.props.isSubscribe?
+                        <div className="button User_subscribe_active" onClick={this.handleUnsubClick.bind(this)}>Отписаться <span>{this.props.countSubs}</span></div>
+                        :<div className="button User_subscribe" onClick={this.handleSubClick.bind(this)}>
+                            Подписаться {this.props.isLoadingSubs? <span>Loading...</span>: <span>{this.props.countSubs}</span>}
+                        </div>
+                }
 
                 {this.props.about? <p className="User_about"><strong>Обо мне:</strong> {this.props.about}</p>: null}
 

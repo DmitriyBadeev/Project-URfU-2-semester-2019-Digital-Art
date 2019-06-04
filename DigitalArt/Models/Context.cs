@@ -12,6 +12,7 @@ namespace DigitalArt.Models
         public DbSet<Artwork> Artworks { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
 
         public Context(DbContextOptions<Context> options)
             : base(options)

@@ -30,7 +30,7 @@ export default class Main extends React.Component {
         return <div className="Main__wrapper">
             <div className="Main__searchWrapper">
                 <Search onSearch={this.searchHandler.bind(this)}/>
-                <Filter buttons={sortButtons} getArtworks={this.props.getArtworks}/>
+                <Filter buttons={sortButtons} getArtworks={this.props.getArtworks} authUser={this.props.authUser}/>
             </div>
             {this.props.isLoadingArts? <Loading />: <Masonry className="Main__arts">
                     {this.props.artworks.map((art, index) =>

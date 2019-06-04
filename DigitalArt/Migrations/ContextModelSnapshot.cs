@@ -88,6 +88,23 @@ namespace DigitalArt.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("DigitalArt.Models.Subscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("SubscriberId");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Subscriptions");
+                });
+
             modelBuilder.Entity("DigitalArt.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -148,6 +165,13 @@ namespace DigitalArt.Migrations
                     b.HasOne("DigitalArt.Models.User", "LikedUser")
                         .WithMany()
                         .HasForeignKey("LikedUserId");
+                });
+
+            modelBuilder.Entity("DigitalArt.Models.Subscription", b =>
+                {
+                    b.HasOne("DigitalArt.Models.User", "User")
+                        .WithMany("Subscriptions")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

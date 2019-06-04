@@ -32,5 +32,7 @@ namespace DigitalArt.Models
         public string Role { get; set; }
 
         public ICollection<Artwork> Artworks { get; set; }
+
+        public ICollection<Subscription> Subscriptions { get; set; }
     }
 }
